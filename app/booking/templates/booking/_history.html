@@ -1,0 +1,116 @@
+<table class='table-borderless table-hover'  style='width:100%;'>
+  <tr style='text-align:left;' class='clickable-row' rel='noopener noreferrer'
+      data-href='{{ url_for("health_record.show",
+      health_record_id=booking.customer.id, user_id=booking.customer.id) }}'>
+    {% if current_user.profession == 'Doctor' %}
+      {% if current_user == booking.provider %}
+        <td style='vertical-align:middle;'>
+          <a href='{{ url_for("user.profile", user_id=booking.customer.id, username=booking.customer.username) }}'>
+            <img src='{{ url_for("static", filename="uploads/selfie_img/" + booking.customer.selfie_file) }}'
+              style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center;
+                border-radius:9999px'>
+          </a>
+        </td>
+        <td style='vertical-align:middle;'>
+          <h6>
+            <a href='{{ url_for("user.profile", user_id=booking.customer.id, username=booking.customer.username) }}'>
+              {{ booking.customer.username }}
+            </a>
+          </h6>
+          <small class='text-muted'>
+            attended by
+            <a href='{{ url_for("user.profile", user_id=booking.provider.id) }}'>
+             {{ booking.provider.username }}
+            </a>
+            {{ booking.timestamp | datetimeformat }}
+            <br>
+            {{ booking.booking_type }}
+          </small>
+        </td>
+        <td style='vertical-align:middle;'>
+          <h6>mobile: {{ booking.customer.phone }}</h6>
+          <small class='text-muted'>NRIC: {{ booking.customer.nric }}</small>
+        </td>
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if booking.consulted==False and booking.has_ended==False %}
+            <small class='text-muted'>not consulted</small>
+          {% else %}
+            <small class='text-muted'>consulted</small>
+          {% endif %}
+        </td>
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if booking.consulted==False or booking.has_ended==False %}
+            <a rel='noopener noreferrer' class='btn-mod' 
+                href='{{ url_for("consultation.dashboard", booking_id=booking.id) }}'>
+              Consult
+            </a>
+          {% endif %}
+        </td>
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if user == current_user or current_user.is_superadmin %}
+          <a rel='noopener noreferrer'
+              href='{{ url_for("booking.delete", user_id=user.id, booking_id=booking.id) }}' style='color:#000000;'>
+            <span class='fa-stack'>
+              <i class='fa fa-trash-o fa-stack-1x'></i>
+            </span>
+          </a>
+          {% endif %}
+        </td>
+      {% endif %}
+    {% endif %}
+
+
+    {% if current_user == booking.customer %}
+      {% if booking.provider != None %}
+      <td style='width:10%; vertical-align:middle;'>
+        <a href='{{ url_for("user.profile", user_id=booking.provider.id) }}'>
+          <img src='{{ url_for("static", filename="uploads/selfie_img/" + booking.provider.selfie_file) }}'
+            style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center;
+              border-radius:9999px'>
+        </a>
+      </td>
+      {% endif %}
+      
+      <td style='width:85%; vertical-align:middle;'>
+        <small class='text-muted'>{{ booking.note }}</small><br>
+        <small class='text-muted'>
+          <a href='{{ url_for("user.profile", user_id=booking.customer.id) }}'>
+            {{ booking.customer.username }}
+          </a><br>
+          {% if booking.provider != None %}
+            attended by
+            <a href='{{ url_for("user.profile", user_id=booking.provider.id) }}'>
+              {{ booking.provider.username }}
+            </a><br>
+          {% endif %}
+          created on: 
+          <span class='hide-div'>{{ booking.timestamp.strftime('%a, %d-%b-%Y, %H:%M') }}</span>
+          ({{ booking.timestamp | datetimeformat }}) | {{ booking.booking_type }}
+        </small>
+      </td>
+
+      <td class='hide-div' style='width:5%; vertical-align:middle;'>
+        {% if user == current_user or current_user.is_superadmin %}
+        <a rel='noopener noreferrer'
+            href='{{ url_for("booking.delete", booking_id=booking.id, user_id=user.id) }}' style='color:#000000;'>
+          <span class='fa-stack'>
+            <i class='fa fa-trash-o fa-stack-1x'></i>
+          </span>
+        </a>
+        {% endif %}
+      </td>
+    {% endif %}
+  </tr>
+</table>
+
+
+{% block scripts %}
+  <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+  <script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+      window.location = $(this).data("href");
+    });
+  });
+  </script>
+{% endblock %}

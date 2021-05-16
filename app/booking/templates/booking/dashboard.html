@@ -1,0 +1,100 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div class='container-fluid' style='min-height:100vh;'>
+	<div class='container py-2'>
+		{% include 'message/_message.html' %}
+	</div>
+
+	<div class='container' style='min-height:10vh; display:flex; align-items:center; justify-content:center;'>
+		<div class='jumbotron-fluid' style='width:100%;'>
+			<div class='container' style='min-height:10vh; display:flex;
+					align-items:center; justify-content:space-between;'>
+				<a rel='noopener noreferrer' href='{{ url_for("user.dashboard", user_id=current_user.id,
+						username=current_user.username) }}'>
+					<h5 class='text-right'>Dashboard</h5>
+				</a>
+				<h5 class='text-right'>Bookings</h5>
+			</div>
+			
+			<div class='hide-div py-4'
+					style='min-height:90vh; display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:center;'><!-- CONTENT 1 -->
+				<div class='container-fluid'>
+					<nav>
+						<div class='nav nav-tabs' id='nav-tab' role='tablist'>
+							<a class='nav-item nav-link active' id='nav-current-tab' data-toggle='tab' href='#nav-current'
+									role='tab' aria-controls='nav-current' aria-selected='true'>
+								Current
+							</a>
+							<a class='nav-item nav-link' id='nav-history-tab' data-toggle='tab' href='#nav-history'
+									role='tab' aria-controls='nav-history' aria-selected='false'>
+								History
+							</a>
+							{% if current_user.profession == 'Doctor' %}
+								<a class='nav-item nav-link hide-div' id='nav-collab-tab' data-toggle='tab' href='#nav-collab' 
+										role='tab' aria-controls='nav-collab' aria-selected='false'>
+									Collab
+								</a>
+							{% endif %}
+						</div>
+					</nav>
+
+					<div class='tab-content' id='nav-tabContent'>
+						<div class='tab-pane fade show active' id='nav-current' role='tabpanel'
+								aria-labelledby='nav-current-tab'>
+							<div class='hide-div py-4'
+									style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+								{% for company in user.workplaces %}
+									{% for booking in company.bookings_received %}
+										{% if booking.cancelled==False and booking.consulted==False %}
+											{% include 'booking/_list.html' %}
+										{% endif %}
+									{% endfor %}
+								{% endfor %}
+
+								{% for booking in bookings_sent %}
+									{% if booking.cancelled==False and booking.consulted==False %}
+										{% include 'booking/_list.html' %}
+									{% endif %}
+								{% endfor %}
+							</div>
+						</div>
+						<div class='tab-pane fade' id='nav-history' role='tabpanel' aria-labelledby='nav-history-tab'>
+							<div class='hide-div py-4 booking-items'
+									style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+								{% if current_user.profession == 'Doctor' %}
+									{% for booking in bookings_accepted %}
+										{% if booking.consulted==True or booking.has_ended==True %}
+											{% include 'booking/_history.html' %}
+										{% endif %}
+									{% endfor %}
+								{% else %}
+									{% for booking in bookings_sent %}
+										{% if booking.consulted==True or booking.has_ended==True %}
+											{% include 'booking/_history.html' %}
+										{% endif %}
+									{% endfor %}
+								{% endif %}
+							</div>
+						</div>
+
+						{% if current_user.profession == 'Doctor' %}
+							<div class='tab-pane fade' id='nav-collab' role='tabpanel' aria-labelledby='nav-collab-tab'>
+								<div class='hide-div py-4'
+										style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+									{% for consultation in user.consultations | reverse %}
+										{% include 'consultation/_collab.html' %}
+									{% endfor %}
+								</div>
+							</div>
+						{% endif %}
+
+					</div>
+				</div>
+			</div><!-- End CONTENT 1 -->
+
+		</div>
+	</div>
+</div>
+{% endblock %}

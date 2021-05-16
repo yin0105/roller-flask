@@ -1,0 +1,162 @@
+<nav class='navbar navbar-expand-sm'>
+  <div class='container'>
+
+    <!-- brand -->
+    <a rel='noopener noreferrer' 
+        href='{{ url_for("home.index") }}' class='navbar-brand mr-auto'>
+      <h5 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+        whose<span style='font-weight:300; color:rgb(254, 125, 1)'>doctor</span>
+      </h5>
+    </a>
+
+    <!-- navbar expand menu -->
+    <ul class='navbar-nav ml-auto hide-div'>
+      {% if current_user.is_anonymous %}
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("auth.login") }}' class='nav-link btn-border'>
+            Sign In
+          </a>
+        </li>
+      {% else %}
+
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("company.teleconsult_queue", company_id=company.id) }}' 
+              class='nav-link'>
+            Teleconsult
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("company.shop", company_id=company.id) }}' class='nav-link'>
+            Shop
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("company.profile", company_id=company.id) }}' class='nav-link'>
+            Co.Profile
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("user.dashboard", user_id=current_user.id, username=current_user.username) }}' 
+              class='nav-link'>
+            Dashboard
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("chat.chats") }}'class='nav-link'>
+            Chats
+            {% set new_chats = current_user.unread_chats() %}
+            <span id='chat_count' class='badge badge-pill badge-secondary' 
+                style='display: {% if new_chats %}inline-block {% else %}none {% endif %};'>
+              {{ session['CHAT'] }}
+            </span>
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+            <span class='fa-stack-mod'>
+              <i class='fa fa-first-order  fa-stack-1x text-grey'></i>
+            </span>
+            
+            <span id='' class='badge badge-pill badge-secondary'
+                style='display: {% if session["ORDERS"] != 0 %}inline-block {% else %}none {% endif %};'>
+              {{ session['ORDERS']  }}
+            </span>
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+          href='{{ url_for("auth.logout") }}' class='nav-link btn-border'>
+            Sign Out
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+    
+    <!-- toggle -->
+    <button class='navbar-toggler custom-toggler'>
+      <span class='navbar-toggler-icon' data-toggle='collapse' data-target='#navbarMenu'></span>
+    </button>
+    
+    <!-- navbar collapse menu -->
+    <div id='navbarMenu' class='collapse navbar-toggleable-sm'>
+      <ul class='navbar-nav ml-auto'>
+        {% if current_user.is_anonymous %}
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("auth.login") }}' class='nav-link btn-border'>
+                <span class='fa-stack'>
+                  <i class='fa fa-sign-in fa-stack-1x text-grey'></i>
+                </span>
+              Sign In
+            </a>
+          </li>
+        {% else %}
+
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("company.teleconsult_queue", company_id=company.id) }}' 
+                class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-id-card-o  fa-stack-1x text-grey'></i>
+              </span>
+              Teleconsult
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("company.shop", company_id=company.id) }}' class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-id-card-o  fa-stack-1x text-grey'></i>
+              </span>
+              shop
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("chat.chats") }}'class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-comments fa-stack-1x text-grey'></i>
+              </span>
+              Chats
+              {% set new_chats = current_user.unread_chats() %}
+              <span id='chat_count' class='badge badge-pill badge-secondary' 
+                  style='display: {% if new_chats %}inline-block {% else %}none {% endif %};'>
+                {{ new_chats }}
+              </span>
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-first-order  fa-stack-1x text-grey'></i>
+              </span>
+              Order
+              <span id='' class='badge badge-pill badge-secondary'
+                  style='display: {% if session["ORDERS"] != 0 %}inline-block {% else %}none {% endif %};'>
+                {{ session['ORDERS']  }}
+              </span>
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("auth.logout") }}' class='nav-link btn-border'>
+              <span class='fa-stack'>
+                <i class='fa fa-sign-out fa-stack-1x text-grey'></i>
+              </span>
+              Sign Out
+            </a>
+          </li>
+        {% endif %}
+      </ul>
+    </div>
+    
+  </div>
+</nav>

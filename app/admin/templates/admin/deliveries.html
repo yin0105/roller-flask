@@ -1,0 +1,79 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+    <div class='container-fluid hide-div' 
+        style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+      {% include 'sidebar/_admin_sidebar.html' %}
+    </div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' 
+				style='padding:0; display:flex; align-items:center; justify-content:center;'><!-- End Right Column -->
+
+			<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- COLUMN -->
+
+				{% include 'navbar/_navbar.html' %}
+				
+				<div style='margin:20px;'>
+					{% include 'message/_message.html' %}
+				</div>
+
+				<div class='container hide-div'>
+					<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+				</div>
+
+				<iframe src='{{ url_for("geomap.delivery_requests_map") }}' 
+						style='width:100%; height:30vh; border:transparent;'></iframe>
+
+				<div class='hide-div py-4'
+						style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+					<div class='container-fluid'>
+						<nav>
+							<div class='nav nav-tabs' id='nav-tab' role='tablist'>
+								<a class='nav-item nav-link active' id='nav-current-tab' data-toggle='tab' href='#nav-current' role='tab' 
+									aria-controls='nav-current' aria-selected='true'>Current {{ new_deliveries | list | length }}</a>
+								<a class='nav-item nav-link' id='nav-history-tab' data-toggle='tab' href='#nav-history' role='tab' 
+									aria-controls='nav-history' aria-selected='false'>History {{ past_deliveries | list | length }}</a>
+							</div>
+						</nav>
+
+						<div class='tab-content' id='nav-tabContent'>
+							<div class='tab-pane fade show active' id='nav-current' role='tabpanel' aria-labelledby='nav-current-tab'>
+								<div class='hide-div py-4'
+										style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+									{% include 'admin/_deliveries_list.html' %}
+								</div>
+							</div>
+							<div class='tab-pane fade' id='nav-history' role='tabpanel' aria-labelledby='nav-history-tab'>
+								<div class='hide-div py-4'
+										style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+									{% include 'admin/_deliveries_history.html' %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			</div><!-- End COLUMN -->
+
+		</div><!-- End Right Column -->
+
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickable-row").click(function() {
+			window.location = $(this).data("href");
+		});
+	});
+	</script>
+{% endblock %}

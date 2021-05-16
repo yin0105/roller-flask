@@ -1,0 +1,295 @@
+<nav class='navbar navbar-expand-sm'>
+  <div class='container'>
+
+    <!-- brand -->
+    <a rel='noopener noreferrer' 
+        href='{{ url_for("home.index") }}' class='navbar-brand mr-auto'>
+      <h5 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+        whose<span style='font-weight:300; color:rgb(254, 125, 1)'>doctor</span>
+      </h5>
+    </a>
+
+    <!-- navbar expand menu -->
+    <ul class='navbar-nav ml-auto hide-div'>
+      {% if current_user.is_anonymous %}
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("auth.login") }}' class='nav-link btn-border'>
+            Sign In
+          </a>
+        </li>
+      {% else %}
+
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("user.dashboard", user_id=current_user.id, username=current_user.username) }}' 
+              class='nav-link'>
+            Dashboard
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("chat.chats") }}'class='nav-link'>
+            Chats
+            {% set new_chats = current_user.unread_chats() %}
+            <span id='chat_count' class='badge badge-pill badge-secondary' 
+                style='display: {% if new_chats %}inline-block {% else %}none {% endif %};'>
+              {{ session['CHAT'] }}
+            </span>
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("user.profile", user_id=current_user.id, username=current_user.username) }}' 
+              class='nav-link'>
+            Profile
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+            <span class='fa-stack-mod'>
+              <i class='fa fa-first-order  fa-stack-1x text-grey'></i>
+            </span>
+            
+            <span id='' class='badge badge-pill badge-secondary'
+                style='display: {% if session["ORDERS"] != 0 %}inline-block {% else %}none {% endif %};'>
+              {{ session['ORDERS']  }}
+            </span>
+          </a>
+        </li>
+        <li class='nav-item'>
+          <!-- NOTE: cart_id = current_user.id -->
+          <a rel='noopener noreferrer' 
+              href='{{ url_for("cart.dashboard", cart_id=current_user.id) }}' class='nav-link'>
+            <span class='fa-stack-mod'>
+              <i class='fa fa-cart-plus fa-stack-1x'></i> 
+            </span>
+            <span id='' class='badge badge-pill badge-secondary'
+                style='display: {% if session["CART"] != 0 %}inline-block {% else %}none {% endif %};'>
+              {{ session['CART']  }}
+            </span>
+          </a>
+        </li>
+        <li class='nav-item'>
+          <a rel='noopener noreferrer' 
+          href='{{ url_for("auth.logout") }}' class='nav-link btn-border'>
+            Sign Out
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+    
+    <!-- toggle -->
+    <button class='navbar-toggler custom-toggler'>
+      <span class='navbar-toggler-icon' data-toggle='collapse' data-target='#navbarMenu'></span>
+    </button>
+    
+    <!-- navbar collapse menu -->
+    <div id='navbarMenu' class='collapse navbar-toggleable-sm'>
+      <ul class='navbar-nav ml-auto'>
+        {% if current_user.is_anonymous %}
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("auth.login") }}' class='nav-link btn-border'>
+                <span class='fa-stack'>
+                  <i class='fa fa-sign-in fa-stack-1x text-grey'></i>
+                </span>
+              Sign In
+            </a>
+          </li>
+        {% else %}
+
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("user.profile", user_id=current_user.id, username=current_user.username) }}' class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-user  fa-stack-1x text-grey'></i>
+              </span>
+              Profile
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("calendar.show", user_id=current_user.id, calendar_id=current_user.id) }}' 
+                class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-id-card-o  fa-stack-1x text-grey'></i>
+              </span>
+              Appointment
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("health_record.show", user_id=current_user.id , health_record_id=current_user.id) }}' 
+                class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-id-card-o  fa-stack-1x text-grey'></i>
+              </span>
+              Health Record
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("user.dashboard", user_id=current_user.id, username=current_user.username) }}' 
+                class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-tachometer fa-stack-1x text-grey'></i>
+              </span>
+              Dashboard
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("chat.chats") }}'class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-comments fa-stack-1x text-grey'></i>
+              </span>
+              Chats
+              {% set new_chats = current_user.unread_chats() %}
+              <span id='chat_count' class='badge badge-pill badge-secondary' 
+                  style='display: {% if new_chats %}inline-block {% else %}none {% endif %};'>
+                {{ new_chats }}
+              </span>
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("cart.dashboard", cart_id=current_user.id) }}' class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-cart-plus  fa-stack-1x text-grey'></i>
+              </span>
+              Cart
+              <span id='' class='badge badge-pill badge-secondary'
+                  style='display: {% if session["CART"] != 0 %}inline-block {% else %}none {% endif %};'>
+                {{ session['CART']  }}
+              </span>
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+              <span class='fa-stack'>
+                <i class='fa fa-first-order  fa-stack-1x text-grey'></i>
+              </span>
+              Order
+              <span id='' class='badge badge-pill badge-secondary'
+                  style='display: {% if session["ORDERS"] != 0 %}inline-block {% else %}none {% endif %};'>
+                {{ session['ORDERS']  }}
+              </span>
+            </a>
+          </li>
+          <li class='nav-item'>
+            <a rel='noopener noreferrer' 
+                href='{{ url_for("auth.logout") }}' class='nav-link btn-border'>
+              <span class='fa-stack'>
+                <i class='fa fa-sign-out fa-stack-1x text-grey'></i>
+              </span>
+              Sign Out
+            </a>
+          </li>
+
+          <br>
+
+          {% if current_user.is_superadmin %}
+            <li class='nav-item'>
+              Admin Dashboard
+              <hr>
+            </li>
+
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.feedback") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-comments-o fa-stack-1x text-grey'></i>
+                </span>
+                Feedbacks
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.people") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-users fa-stack-1x text-grey'></i>
+                </span>
+                People
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.company") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-building fa-stack-1x text-grey'></i>
+                </span>
+                Companies
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.product") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-shopping-bag fa-stack-1x text-grey'></i>
+                </span>
+                Products
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.cart") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-shopping-cart fa-stack-1x text-grey'></i>
+                </span>
+                Carts
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-first-order  fa-stack-1x text-grey'></i>
+                </span>
+                Orders
+                <span id='' class='badge badge-pill badge-secondary'
+                    style='display: {% if session["ORDERS"] != 0 %}inline-block {% else %}none {% endif %};'>
+                  {{ session['ORDERS']  }}
+                </span>
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("order.dashboard", user_id=current_user.id) }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-truck  fa-stack-1x text-grey'></i>
+                </span>
+                Deliveries
+                <span id='' class='badge badge-pill badge-secondary'
+                    style='display: {% if session["DELIVERY"] != 0 %}inline-block {% else %}none {% endif %};'>
+                  {{ session['DELIVERY']  }}
+                </span>
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("geomap.show") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-map fa-stack-1x text-grey'></i>
+                </span>
+                GeoMap
+              </a>
+            </li>
+            <li class='nav-item'>
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.currency") }}' class='nav-link'>
+                <span class='fa-stack'>
+                  <i class='fa fa-money fa-stack-1x text-grey'></i>
+                </span>
+                Currencies
+              </a>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+    </div>
+    
+  </div>
+</nav>

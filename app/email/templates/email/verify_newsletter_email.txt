@@ -1,0 +1,15 @@
+Dear {{ user.username }},
+
+Thank you for signing up to be our early adopters. 
+
+We are a team working under the Nanyang Technological University Innovation & Venture Building arm, NTUitive, to improve the delivery of healthcare to you. 
+
+During the months of Feburary and March, we conducted interviews and surveys to understand your healthcare experience. We found 7 in 10 going into clinics have mild conditions and are contributing to the long waiting time at the clinics. Queues can become painful for those who are really sick - especially for our elderly folks.
+
+To reduce crowding at the clinics, we are working with the doctors to teleconsult mild condition patients from the comfort of their own home or office.
+
+As promised, we have created an account for you and will be providing you with updates. 
+
+From now till 30 April 2021, we are offering $2 off for every teleconsultation. Additionally, we are giving away a $20 NTUC vouchers to 5 lucky draw winners which we will be announcing on 30 April 2021 by email. All you have to do is to click on the link below to verify your email and you will be automatically entered into our lucky draw.
+
+{{ url_for("auth.verify_newsletter_email", token=token, _external=True) }}

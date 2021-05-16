@@ -1,0 +1,36 @@
+<div class='container' 
+		style='min-height:80vh; display:flex; align-items:flex-start; justify-content:center;'><!-- Incoming Orders -->
+	<table class='table table-sm table-borderless table-hover'>
+		<tbody>
+		{% for receipt in receipts %}
+			<tr style='text-align:left;'>
+				<td style='width:20%; vertical-align:middle;'>
+					<Small>Order ID:{{ receipt.id }}</Small>
+					<br>
+					<span style='color:grey; font-size:0.5em;'>
+						created: {{ receipt.created_on | datetimeformat }}
+					</span>
+				</td>
+
+				<td style='width:40%; vertical-align:middle;'>
+					{% for cart_item in receipt.cart_items %}
+						{{ cart_item.brand }} <span style='color:grey; font-size:0.5em;'>
+						from {{ cart_item.supplier.name }}</span><br>
+					{% endfor %}
+				</td>
+
+				<td style='width:20%; vertical-align:middle;'>
+					{% for cart_item in receipt.cart_items %}
+						<small style='font-family:Roboto, sans-serif; color:#555;'>{{ cart_item.currency }}</small>
+						{{ cart_item.ttl_amount | format_amount }}
+					{% endfor %}
+				</td>
+
+				<td class='hide-div' style='width:20%; vertical-align:middle;'>
+					<small>Purchased By: {{ receipt.buyer.username }}</small>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div><!-- End Incoming Orders -->

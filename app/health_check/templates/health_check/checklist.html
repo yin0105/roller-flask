@@ -1,0 +1,73 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<section class='py-4' style='background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='min-height:100vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+
+		<div class='col-12 col-sm-12 col-lg-4 pt-2' style='height:100%; 
+				display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+			<div class='container'>	
+				<h5 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(254, 125, 1);'>
+					DO NOT tele-consult
+				</h5>
+				<ul>
+					<li style='color:red;'>Fever over 38<sup>o</sup>deg C</li>
+					<li style='color:red;'>Sudden onset of headache</li>
+					<li style='color:red;'>Chest pain</li>
+					<li style='color:red;'>Prescription delivery not available at the moment</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class='col-12 col-sm-12 col-lg-5 pb-2' style='height:100%; 
+				display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+			<div class='container'>	
+				<h5 style='font-family:Montserrat,sans-serif; font-weight:900; color:#6FB2FF;'>
+					We can tele-consult
+				</h5>
+				<ul>
+					<li>Sore throat</li>
+					<li>Diarrhoea</li>
+					<li>Flu, Cough & Cold</li>
+					<li>Sinusitis</li>
+					<li>Rash and skin conditions</li>
+					<li>Cold sores</li>
+					<li>Red eye</li>
+				</ul>
+			<div>
+
+			<h5 style='font-family:Montserrat,sans-serif; font-weight:700; color:#000000;'>
+				Tele-Consult: $20.00
+			</h5>
+			<h6 style='font-family:Montserrat,sans-serif; font-weight:700; color:red;'>
+				Discount: $2.00 <br>
+				<small class='text-muted'> (code: APPDR132)</small>
+			</h6>
+			<h5 style='font-family:Montserrat,sans-serif; font-weight:900; color:#000000;'>
+				Pay: $18.00
+			</h5>
+			<button id='checkout-button' class='btn  btn-lg' 
+					style='width:10em; background-color:#6FB2FF; color:#FFFFFF;'>
+				PAY & BOOK
+			</button>
+		</div>
+	</div>
+</section>
+
+
+{% include 'footer/_landing_footer.html' %}
+
+
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script src='https://js.stripe.com/v3/'></script>
+	<script src='{{ url_for("static", filename="javascripts/stripe-consult-ajax.js") }}'></script>
+{% endblock %}

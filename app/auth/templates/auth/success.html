@@ -1,0 +1,57 @@
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<section id='' class='d-flex align-items-center position-relative vh-100 cover intro' 
+		style='background-image:url("/static/uploads/app_img/pexels-gustavo-fring-4173249.jpg"); 
+						display:flex; align-items:center; justify-content:center;
+						background-size: cover; 
+						background-repeat: no-repeat; 
+						background-position: center center; 
+						background-attachment: fixed;'>
+	<div class='container-fluid' style='min-height:100vh; 
+			display:flex; align-items:center; justify-content:center;'>
+		<div class='row text-center'>
+			<div class='col-12'>
+				<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+					whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+				</h2>
+			</div>
+
+			<div class='col-12 pb-5'>
+				<h1 class='jumbotron-fluid' style='color:#4a4a4a'>
+					<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+						Registration successful. Thank You.
+					</h1>
+				</h1>
+				<a rel='noopener noreferrer' href='{{ url_for("auth.login") }}' 
+						class='btn-mod' style='width:7em; background-color:#6FB2FF; border:none;'>
+					LOGIN
+				</a>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	<!-- Facebook Pixel Code -->
+	<script>
+		!function(f,b,e,v,n,t,s)
+		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		n.queue=[];t=b.createElement(e);t.async=!0;
+		t.src=v;s=b.getElementsByTagName(e)[0];
+		s.parentNode.insertBefore(t,s)}(window, document,'script',
+		'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '1655499614633428');
+		fbq('track', 'PageView');
+	</script>
+	<noscript>
+		<img height="1" width="1" style="display:none"
+			src="https://www.facebook.com/tr?id=1655499614633428&ev=PageView&noscript=1"/>
+	</noscript>
+	<!-- End Facebook Pixel Code -->
+{% endblock %}

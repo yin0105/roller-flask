@@ -1,0 +1,91 @@
+<table class='table-borderless table-hover'  style='width:100%;'>
+  <tr>
+    <div class='container' style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+      {% if current_user.profession == 'Doctor' %}
+        <td style='vertical-align:middle;'>
+          <a href='{{ url_for("user.profile", user_id=booking.customer.id, username=booking.customer.username) }}'>
+            <img src='{{ url_for("static", filename="uploads/selfie_img/" + booking.customer.selfie_file) }}'
+              style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center;
+                border-radius:9999px'>
+          </a>
+        </td>
+        <td style='vertical-align:middle;'>
+          <a href='{{ url_for("user.profile", user_id=booking.customer.id, username=booking.customer.username) }}'>
+            {{ booking.customer.username }}
+          </a>
+          <small class='text-muted hide-div'>said {{ booking.note }}</small><br>
+          <small class='text-muted hide-div'>
+            created on: 
+            <span class='hide-div'>{{ booking.timestamp.strftime('%a, %d-%b-%Y, %H:%M') }}</span>
+            ({{ booking.timestamp | datetimeformat }})<br>
+            {{ booking.booking_type }}
+          </small><br>
+        </td>
+        <td style='vertical-align:middle;'>
+          <h6>mobile: {{ booking.customer.phone }}</h6>
+          <h6>NRIC: {{ booking.customer.nric }}</h6>
+        </td>
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if booking.consulted==False and booking.has_ended==False %}
+            <small class='text-muted'>not consulted</small>
+          {% else %}
+            <small class='text-muted'>consulted</small>
+          {% endif %}
+        </td>
+
+        <td class='hide-div' style='vertical-align:middle;'>
+          <a rel='noopener noreferrer' class='btn-mod' href='{{ url_for("consultation.dashboard", booking_id=booking.id) }}'>
+            Consult
+          </a>
+        </td>
+
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if user == current_user or current_user.is_superadmin %}
+          <a rel='noopener noreferrer'
+              href='{{ url_for("booking.delete", user_id=user.id, booking_id=booking.id) }}'
+              style='color:#000000;'>
+            <span class='fa-stack'>
+              <i class='fa fa-trash-o fa-stack-1x'></i>
+            </span>
+          </a>
+          {% endif %}
+        </td>
+      {% endif %}
+
+      {% if current_user == booking.customer %}
+        <td style='vertical-align:middle;'>
+          {{ booking.booking_type }} booking is confirmed<br>
+          <small class='text-muted hide-div'>
+            created on: 
+            {{ booking.timestamp.strftime('%a, %d-%b-%Y, %H:%M') }}
+            ({{ booking.timestamp | datetimeformat }}) {{ booking.booking_type }}
+          </small><br>
+          <small class='text-muted hide-div'>
+            <a href='{{ url_for("user.profile", user_id=booking.customer.id) }}'>
+              patient: {{ booking.customer.username }}
+            </a>
+            said {{ booking.note }}
+          </small>
+        </td>
+        <td class='px-2' style='vertical-align:middle;'>
+          <h6>mobile: {{ booking.customer.phone }}</h6>
+        </td>
+        <td class='px-2' style='vertical-align:middle;'>
+          <h6>NRIC: {{ booking.customer.nric }}</h6>
+        </td>
+        <td class='hide-div' style='vertical-align:middle;'>
+          {% if user == current_user or current_user.is_superadmin %}
+          <a rel='noopener noreferrer'
+              href='{{ url_for("booking.delete", booking_id=booking.id, user_id=user.id) }}'
+              style='color:#000000;'>
+            <span class='fa-stack'>
+              <i class='fa fa-trash-o fa-stack-1x'></i>
+            </span>
+          </a>
+          {% endif %}
+        </td>
+      {% endif %}
+    </div>
+  </tr>
+</table>
+

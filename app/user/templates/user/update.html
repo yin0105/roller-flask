@@ -1,0 +1,53 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'>
+
+	{% include 'navbar/_navbar.html' %}
+	<div style='margin:20px;'>
+		{% include 'message/_message.html' %}
+	</div>
+
+	<div clas='row' 
+			style='min-height:100vh; display:flex; align-items:center; justify-content:center;'><!-- CONTENT Row 1 -->
+		<div class='container' style='display:flex; align-items:center; justify-content:center;'>
+
+			<div class='right-column text-left' style='display:flex; 
+					flex-wrap:wrap; align-items:center; justify-content:flex-start;'><!-- Column -->
+
+				<div id='view-box' class='py-4' style='display:flex; align-items:center; justify-content:center;'>
+					<img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}'  
+						style='width:320px; height:280px; border:0 transparent; 
+						object-fit:cover; object-position:center center;'>
+				</div>
+
+				<div id='thumbs' 
+						style='min-height:16vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start;'>
+					{% if user == current_user %}<!-- edit allowed if current user is account owner -->
+						<div class='container'>		
+							<a rel='noopener noreferrer' 
+									href='{{ url_for("user.upload") }}' 
+									style='color:#555;'>
+								<span class='fa-stack fa-1x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-upload fa-stack-1x text-white'></i>
+								</span>
+							</a>
+						</div>
+					{% endif %}
+				</div>
+
+				<div class='description' style='width:100%;'>
+					{{ wtf.quick_form(form) }}
+				</div>
+			</div><!-- End Column -->
+
+		</div>
+	</div><!-- End CONTENT Row 1 -->
+
+</div>
+{% endblock %}

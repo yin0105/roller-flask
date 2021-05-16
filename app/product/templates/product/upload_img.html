@@ -1,0 +1,33 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div style='display:flex; min-height:100vh; align-items:center; justify-content:center;'>
+  <div class='col-12 col-sm-4 col-lg-4'>
+    <h1 class='pb-5'>{{ title }}</h1> 
+    {% include 'message/_message.html' %}
+
+    <hr>
+    <form method='POST' action='' enctype='multipart/form-data'>
+      {{ form.hidden_tag() }}
+      
+      <div class='field'>
+        {{ form.photo(class=' ') }}
+
+        {% if form.photo.errors %}
+          {% for error in form.photo.errors %}
+            <span class='text-danger'>{{ error }}</span></br>
+          {% endfor %}
+        {% endif %}
+      </div>
+
+      <br>
+      
+      <div class='field'>
+        <button type="submit" class="btn btn-secondary btn-lg">Upload</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}

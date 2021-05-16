@@ -1,0 +1,100 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:rgb(225,225,225);'>
+  <div class='container-fluid' 
+      style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+    <div class='container-fluid hide-div' 
+        style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+      {% include 'sidebar/_admin_sidebar.html' %}
+    </div><!-- End LEFT COLUMN -->
+
+    <div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+      {% include 'navbar/_navbar.html' %}
+      <div style='margin:20px;'>
+        {% include 'message/_message.html' %}
+      </div>
+
+      <div class='container hide-div'>
+        <h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+      </div>
+
+      <iframe src='{{ url_for("geomap.show") }}' style='width:100%; height:30vh; border:transparent;'></iframe>
+
+      <div class='hide-div py-4' 
+          style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+        <table class='table table-sm table-borderless table-hover' style='width:90%;'>
+          <thead style='margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,.1)'>
+            <tr style='text-align:left;'>
+              <th scope='col'>Created</th>
+              <th scope='col'>Customer</th>
+              <th scope='col'>Provider</th>
+              <th class='hide-div' scope='col'></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for booking in bookings %}
+            <tr style='text-align:left;'>
+              <td style='vertical-align:middle;'>
+                {{ booking.timestamp.strftime('%a, %d-%b-%Y, %H:%M %p') }}<br>
+                <small class='text-muted'>( {{ booking.timestamp | datetimeformat }} )</small>
+              </td>
+              <td style='vertical-align:middle;'>
+                <a href='{{ url_for("user.profile", 
+                    username=booking.customer.username, user_id=booking.customer.id) }}'>
+                  <img src='{{ url_for("static", filename="uploads/selfie_img/" + booking.customer.selfie_file) }}' 
+                    style='height:40px; width:40px; margin-left:-4px; object-fit:cover; object-position:center center; 
+                    box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+                  {{ booking.customer.username }}
+                </a> 
+                <br>
+              </td>
+              <td style='vertical-align:middle;'>
+                {% for provider in booking.providers %}
+                  <a href='{{ url_for("user.profile", 
+                      username=provider.username, user_id=provider.id) }}'>
+                    <img src='{{ url_for("static", filename="uploads/selfie_img/" + provider.selfie_file) }}' 
+                      style='height:40px; width:40px; margin-left:-4px; object-fit:cover; object-position:center center; 
+                      box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+                    {{ provider.username }}
+                  </a> 
+                  <br>
+                {% endfor %}
+              </td>
+              <td class='hide-div' style='vertical-align:middle;'>
+                {% if current_user.is_superadmin %}
+                <a rel='noopener noreferrer' 
+                    href='{{ url_for("admin.delete_booking", 
+                    booking_id=booking.id, user_id=booking.customer.id) }}' style='color:#000000;'>
+                  <span class='fa-stack'>
+                    <i class='fa fa-trash-o fa-stack-1x'></i>
+                  </span>
+                </a>
+                {% endif %}
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div><!-- End CONTENT 1 -->
+
+    </div><!-- End RIGHT COLUMN -->
+
+  </div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+      window.location = $(this).data("href");
+    });
+  });
+  </script>
+{% endblock %}

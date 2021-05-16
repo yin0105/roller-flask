@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,900;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Montserrat&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel='stylesheet' href='{{ url_for("static", filename = "stylesheets/style.css") }}' type='text/css'>
+    <link rel='icon' href='{{ url_for("static", filename = "favicon.ico") }}' type='image/x-icon'>
+    <title>{{ title }}</title>
+  </head>
+  <body>
+
+    <div style='min-height:100vh;'>
+      {% include 'navbar/_navbar.html' %}
+
+    <div style='margin:20px;'>
+      {% include 'message/_message.html' %}
+    </div>
+
+      {% block content %} {% endblock %}
+    </div>
+    
+
+    {% include 'footer/_landing_footer.html' %}
+
+
+    {% block scripts %}
+    <!-- moment -->
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    {{ moment.locale('en', {
+        calendar : {
+          lastDay : 'h:mmA [, Yesterday]',
+          sameDay : 'h:mmA [, Today]',
+          nextDay : '[Tomorrow at] LT',
+          lastWeek : 'h:mmA [, last] dddd',
+          nextWeek : 'dddd [at] LT',
+          sameElse : 'h:mmA , L'
+        }
+      })
+    }}
+
+    <!-- jquery must sit above bootstrap -->
+    <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js'></script>
+
+    <!-- click thumbnail to enlarge image -->
+    <script>
+      $("#view-box img:eq(0)").nextAll().hide();
+      $('#thumbs img').click(function() {
+        $('#view').attr('src', $(this).attr('src').replace('thumb', 'large'));
+        $('#description').html($(this).attr('alt'));
+      });
+    </script>
+    <!-- click to change image -->
+    <script>
+      $(document).ready(function() {
+        $('.color-choose input').on('click', function() {
+          var headphonesColor = $(this).attr('data-image');
+     
+          $('.active').removeClass('active');
+          $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+          $(this).addClass('active');
+        });
+      });
+    </script>
+    {% endblock %}
+
+  </body>
+</html>

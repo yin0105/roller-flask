@@ -1,0 +1,103 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid hide-div' 
+				style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+			{% include 'sidebar/_company_sidebar.html' %}
+		</div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_company_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+			
+			<div clas='row' 
+					style='min-height:85vh; display:flex; align-items:center; justify-content:center;'><!-- CONTENT Row -->
+				<div class='container' style='display:flex; flex-wrap:wrap; 
+						align-items:center; justify-content:center;'><!-- RIGHT COLUMN Left/Right Columns Wrapper -->
+			
+					<div class='left-column' style='display:inline-block;'><!-- RIGHT COLUMN Left Column  -->
+						<div id='view-box' style='display:flex; align-items:center; justify-content:center;'>
+							<img src='{{ url_for("static", filename="uploads/logo_img/" + company.logo_file) }}'  
+								style='width:320px; height:280px; border:0 transparent; 
+								object-fit:cover; object-position:center center;'>
+						</div>
+					</div><!-- End RIGHT COLUMN Left Column  -->
+
+					<div class='right-column' 
+							style='display:flex; align-items:center; justify-content:flex-start;'><!-- RIGHT COLUMN Right Column -->
+						<div class='container'>
+							<h1 style='font-weight:300; font-size:52px; color:#43484D; letter-spacing:-2px;'>
+								{{ company.name }}
+							</h1>
+							<p style='font-size:16px; font-weight:300; color:#86939E; line-height: 24px;'>
+								{% if company.about_us != None and '' %}
+									{{ company.about_us }}
+								{% else %}
+									The preferred choice of care-provider. Highly knowledgeable, patient-focused and better clinical outcomes are testimonies to our commitment to deliver quality medical care. 
+								{% endif %}
+							</p>
+							<p style='font-size:16px; font-weight:300; color:#86939E; line-height: 24px;'>
+								{{ company.building }} {{ company.address }} {{ company.unit_num }} {{ company.country }} {{ company.zip_code }}
+							</p>
+
+							<br>
+
+							{% if current_user in company.administrators %}
+								<a rel='noopener noreferrer' 
+										 href='{{ url_for("company.update", company_id=company.id) }}'
+										style='color:#555;'>
+									<span class='small' style='color:rgb(254, 125, 1);'>edit</span>
+								</a>
+							{% endif %}
+
+						</div>
+					</div><!-- End RIGHT COLUMN Right Column -->
+
+				</div><!-- End RIGHT COLUMN Left/Right Columns Wrapper -->
+			</div><!-- End CONTENT Row-->
+
+			{% if product != None %}
+				<section id='' class='py-5' style='background:#FFFFFF;'><!-- SHOP CONTENT -->
+					<div class='container' style='width:80%;'>
+						<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>Products</h2>
+					</div>
+
+					<div id='card-shadow' style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+						{% for product in company.products %}
+							<a rel='noopener noreferrer' 
+									href='{{ url_for("product.profile", product_id=product.id) }}'>
+								<div class='card text-center' 
+										style='width:200px; height:205px; margin:20px; background:transparent; border:0;'><!-- card -->
+									<div class='' style='width:200px; height:180px;'>
+										<img src='{{ url_for("static", filename="uploads/product_img/" + product.feature_picture) }}'
+											style='width:200px; height:180px; overflow:hidden; object-fit:fill; object-position:center center;'>
+									</div>
+									<div class='card-body' style='width:200px; height:15px; overflow:hidden; 
+											display:flex; flex-direction:column; align-items:center; justify-content:center;'>
+										<small style='color:#000000; line-height:15px;'>
+											{{ product.model }}
+										</small>
+										<small>{{ product.currency }} {{ product.amount | format_amount }}</small>
+									</div>
+								</div><!-- End Card -->
+							</a>
+						{% endfor %}
+					</div>
+				</section><!-- End SHOP CONTENT -->
+			{% endif %}
+
+			{% include 'company/_employees.html' %}
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,89 @@
+{% if appointment.customer != None %}
+<table class='table table-hover'>
+
+  <tr style='text-align:left;' class='clickable-row' rel='noopener noreferrer'
+    data-href='{{ url_for("health_record.show", 
+      health_record_id=appointment.customer.id, user_id=appointment.customer.id) }}'>
+
+    {% if current_user == appointment.provider %}
+      <td style='width:15%; vertical-align:middle;'>
+        <a href='{{ url_for("user.profile", user_id=appointment.customer.id, username=appointment.customer.username) }}'>
+          <img src='{{ url_for("static", filename="uploads/selfie_img/" + appointment.customer.selfie_file) }}' 
+            style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center; 
+              border-radius:9999px'> 
+        </a>
+      </td>
+      <td style='width:60%; vertical-align:middle;'>
+        <small class='text-muted'>{{ appointment.note }}</small><br>
+        <small class='text-muted'>
+          <a href='{{ url_for("user.profile", user_id=appointment.customer.id, username=appointment.customer.username) }}'>
+            {{ appointment.customer.username }}
+          </a>
+          attended by 
+          <a href='{{ url_for("user.profile", user_id=appointment.provider.id, username=appointment.provider.username) }}'>
+           {{ appointment.provider.username }}
+          </a>
+          {{ appointment.date | datetimeformat }}
+        </small>
+      </td>
+
+      <td class='hide-div' style='vertical-align:middle;'>
+        {% if user == current_user or current_user.is_superadmin %}
+        <a rel='noopener noreferrer'
+            href='{{ url_for("appointment.delete", user_id=user.id, appointment_id=appointment.id) }}' style='color:#000000;'>
+          <span class='fa-stack'>
+            <i class='fa fa-trash-o fa-stack-1x'></i>
+          </span>
+        </a>
+        {% endif %}
+      </td>
+    {% endif %}
+
+    {% if current_user == appointment.customer %}
+      <td style='width:15%; vertical-align:middle;'>
+        <a href='{{ url_for("user.profile", user_id=appointment.provider.id, username=appointment.provider.username) }}'>
+          <img src='{{ url_for("static", filename="uploads/selfie_img/" + appointment.provider.selfie_file) }}' 
+            style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center; 
+              border-radius:9999px'> 
+        </a>
+      </td>
+      <td style='width:60%; vertical-align:middle;'>
+        <small class='text-muted'>{{ appointment.note }}</small><br>
+        <small class='text-muted'>
+          <a href='{{ url_for("user.profile", user_id=appointment.customer.id, username=appointment.customer.username) }}'>
+            {{ appointment.customer.username }}
+          </a>
+          attended by 
+          <a href='{{ url_for("user.profile", user_id=appointment.provider.id, username=appointment.provider.username) }}'>
+            {{ appointment.provider.username }}
+          </a>
+          {{ appointment.date | datetimeformat }}
+        </small>
+      </td>
+
+      <td class='hide-div' style='vertical-align:middle; width:5%;'>
+        {% if user == current_user or current_user.is_superadmin %}
+        <a rel='noopener noreferrer'
+            href='{{ url_for("appointment.delete", appointment_id=appointment.id, user_id=user.id) }}' style='color:#000000;'>
+          <span class='fa-stack'>
+            <i class='fa fa-trash-o fa-stack-1x'></i>
+          </span>
+        </a>
+        {% endif %}
+      </td>
+    {% endif %}
+  </tr>
+</table>
+{% endif %}
+
+
+{% block scripts %}
+
+  <script>
+  jQuery(document).ready(function($) {
+    $(".clickable-row").click(function() {
+      window.location = $(this).data("href");
+    });
+  });
+  </script>
+{% endblock %}

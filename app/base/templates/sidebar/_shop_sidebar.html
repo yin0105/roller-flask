@@ -1,0 +1,33 @@
+<div class='sidenav' style='display:flex; flex-wrap:wrap; align-items:center;'>
+	<div class='container' style='width:100%;'>
+
+		<a rel='noopener noreferrer' 
+				href='{{ url_for("company.shop", company_id=company.id) }}' class='nav-link'>
+			<span class='fa-stack'>
+				<i class='fa fa-address-card  fa-stack-1x text-grey'></i>
+			</span>
+			<small>Shop Profile</small>
+		</a>
+		{% if current_user in company.administrators %}
+			<a rel='noopener noreferrer' 
+					href='{{ url_for("product.create", company_id=company.id) }}' class='nav-link'>
+				<span class='fa-stack'>
+					<i class='fa fa-address-card  fa-stack-1x text-grey'></i>
+				</span>
+				<small>Add Product</small>
+			</a>
+		{% endif %}
+		{% if current_user in company.employees %}
+	    <a rel='noopener noreferrer' 
+	        href='{{ url_for("company.workplace", user_id=current_user.id) }}' 
+	        class='nav-link'>
+	      <span class='fa-stack'>
+	        <i class='fa fa-address-card  fa-stack-1x text-grey'></i>
+	      </span>
+	      <small>Workplace</small>
+	    </a>
+    {% endif %}
+
+	</div>
+</div>
+

@@ -1,0 +1,114 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='d-flex align-items-center position-relative vh-45 cover intro' 
+		style='background-image:url("/static/uploads/app_img/bg001.jpeg"); 
+						display:flex; align-items:center; justify-content:center;
+						background-size: cover; 
+						background-repeat: no-repeat; 
+						background-position: center center; 
+						background-attachment: fixed;'>
+	<div class='container-fluid' style='min-height:45vh; 
+			display:flex; align-items:center; justify-content:center;'>
+		<div class='row text-center'>
+			<div class='col-12'>
+				<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+					whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+				</h2>
+			</div>
+			<div class='col-12'>
+				<h1 class='jumbotron-fluid' style='color:#4a4a4a'>
+					<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+						Frequently Asked Questions
+					</h1>
+				</h1>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section>
+	<div class='accordion' id='accordionExample'>
+		<div class='card'>
+			<div class='card-header' id='headingOne'>
+				<h2 class='mb-0'>
+				<button type='button' class='btn btn-link' style='text-decoration:none;' 
+						data-toggle='collapse' data-target='#collapseOne'>
+					Who are your doctors & where are the clinics located ?
+				</button>
+				</h2>
+			</div>
+			<div id='collapseOne' class='collapse' aria-labelledby='headingOne' data-parent='#accordionExample'>
+				<div class='card-body'>
+					<div class='container'>
+						<p>
+							We have a list of registered  doctors and clinics located in various parts of Singapore. We are growing!
+							<br>
+							<br>
+							Upon submission of your tele-consult request, our system will match you to the closest available doctor based on your submitted address.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='card'>
+			<div class='card-header' id='headingTwo'>
+				<h2 class='mb-0'>
+				<button type='button' class='btn btn-link collapsed' style='text-decoration:none;'
+						data-toggle='collapse' data-target='#collapseTwo'>
+					What is the estimated cost of your tele-consult? 
+				</button>
+				</h2>
+			</div>
+			<div id='collapseTwo' class='collapse show' aria-labelledby='headingTwo' data-parent='#accordionExample'>
+				<div class='card-body'>
+					<div class='container'>
+						<p>
+							Tele-consultation fee is $20, inclusive of electronic MC.
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class='card'>
+			<div class='card-header' id='headingThree'>
+				<h2 class='mb-0'>
+				<button type='button' class='btn btn-link collapsed' style='text-decoration:none;'
+						data-toggle='collapse' data-target='#collapseThree'>
+					What about the cost of medications?
+				</button>
+				</h2>
+			</div>
+			<div id='collapseThree' class='collapse' aria-labelledby='headingThree' data-parent='#accordionExample'>
+				<div class='card-body'>
+					<div class='container'>
+						<p>
+							Prescription cost varies depending on the outcome of the tele-consult & your medical condition. Currently, we are unable to deliver your medications. 
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+	$(document).ready(function(){
+		// Add minus icon for collapse element which is open by default
+		$('.collapse.show').each(function(){
+			$(this).prev('.card-header').find('.fa').addClass('fa-minus').removeClass('fa-plus');
+		});
+		// Toggle plus minus icon on show hide of collapse element
+		$('.collapse').on('show.bs.collapse', function(){
+			$(this).prev('.card-header').find('.fa').removeClass('fa-plus').addClass('fa-minus');
+		}).on('hide.bs.collapse', function(){
+			$(this).prev('.card-header').find('.fa').removeClass('fa-minus').addClass('fa-plus');
+		});
+	});
+	</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div style='display:flex; min-height:120vh; align-items:center; justify-content:center;'>
+	<div class='col-12 col-sm-4 col-lg-4'>
+		<h1 class='pb-5'>{{ title }}</h1> 
+		{% include 'message/_message.html' %}
+		
+		{{ wtf.quick_form(form) }}
+	</div>
+</div>
+{% endblock %}

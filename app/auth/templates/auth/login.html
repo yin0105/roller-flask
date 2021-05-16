@@ -1,0 +1,31 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<div class='col-12 pt-4'>
+{% include 'message/_message.html' %}
+</div>
+
+<div style='display:flex; min-height:90vh; align-items:center; justify-content:center;'>
+	<div class='col-12 col-sm-12 col-lg-4'>
+		<h1 class='py-4'>{{ title }}</h1>
+		{{ wtf.quick_form(form) }}
+		<br>
+		<div class='auth'>
+			<a  rel='noopener noreferrer' 
+					href='{{ url_for("auth.register") }}' style='text-decoration:none; color:#000000;'>
+				Register
+			</a>
+		</div>
+		<div class='auth'>
+			<a  rel='noopener noreferrer' 
+					href='{{ url_for("auth.requesting_new_password") }}' style='text-decoration:none;color:#000000;'>
+				Forgot your password
+			</a>
+		</div>
+	</div>
+</div>
+{% endblock %}

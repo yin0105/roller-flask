@@ -1,0 +1,25 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div class='col-12 pt-4'>
+{% include 'message/_message.html' %}
+</div>
+
+<div style='display:flex; min-height:90vh; align-items:center; justify-content:center;'>
+	<div class='col-12 col-sm-4 col-lg-4'>
+		<h2 class='pt-4'>{{ title }} </h2>
+		{{ wtf.quick_form(form) }}
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script src='https://js.stripe.com/v3/'></script>
+	<script src='{{ url_for("static", filename="javascripts/stripe-consult-ajax.js") }}'></script>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='stylesheets/chat.css') }}">
+<input id="chatuser" type="text" value="{{ chat_user.username }}" style="display:none">
+<input id="currentuser" type="text" value="{{ current_user.username }}" style="display:none;">
+
+<div style='min-height:100vh; display:flex; align-items:center; justify-content:center;'>
+  <div class='chat-container clearfix'>
+    <div class='chat'>
+      <div class='chat-header chat-clearfix'>
+        <img src='{{ url_for("static", filename="uploads/selfie_img/" + chat_user.selfie_file) }}' 
+        alt='' class='' 
+        style='border-color:{% if chat_user.online %} #86BB71 {% else %} red {% endif %}'/> 
+        <div class='chat-about'>
+          <div class='chat-with'>Chat with {{ chat_user.username }}</div>
+          {% if messages != 'None' %}
+            <div class='chat-num-messages'>already {{ messages.count() }} messages</div>
+          {% else %}
+            <div class='chat-num-messages'>No messages yet</div>
+          {% endif %}
+          </div>
+        </div> <!-- end chat-header -->
+      <div id='fader'></div>
+      <div class='chat-history' id='chat-history'>
+        
+        <ul id="messages">
+        {% if messages != 'None' %}
+          {% for msg in messages %}
+            {% if msg.author == chat_user %}
+              {% include 'chat/_othermsg.html' %}
+            {% else %}
+              {% include 'chat/_mymsg.html' %}
+            {% endif %}
+          {% endfor %}
+          <div id='typing'>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        {% endif %}
+        </ul>
+          
+      </div> <!-- end chat-history -->
+      
+      <div class="chat-message clearfix">
+        <textarea name="message-to-send" id="myMessage" placeholder ="Type your message" rows="3"></textarea>
+        <button id="sendbutton">Send</button>
+
+      </div> <!-- end chat-message -->
+      
+    </div> <!-- end chat -->
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script type='text/javascript' src='//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js'></script>
+  <script src='{{ url_for("static", filename="javascripts/chat.js") }}'></script>
+{% endblock %}

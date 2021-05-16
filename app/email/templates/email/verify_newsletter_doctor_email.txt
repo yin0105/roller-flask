@@ -1,0 +1,11 @@
+Dear {{ user.username }},
+
+Thank you for being a part of our early adopters program. 
+
+We are a team working under the Nanyang Technological University Innovation & Venture Building arm, NTUitive, aiming to improve your productivity and bring you more patients.
+
+As promised, we have created an account for you to provide you with updates and learn from you on what we can do better. For now, your profile will remain hidden until it's completed and after you accepted a tele-consultation request from the Tele-List. 
+
+We look forward to a fruitful venture with you!
+
+{{ url_for("auth.verify_newsletter_doctor_email", token=token, _external=True) }}

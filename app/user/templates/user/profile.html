@@ -1,0 +1,139 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div clas='row' 
+					style='min-height:70vh; display:flex; align-items:center; justify-content:center;'><!-- CONTENT Row 1 -->
+				<div class='container' style='display:flex; align-items:center; justify-content:center;'>
+
+					<div class='product-container' style='width:100%;'><!-- RIGHT COLUMN Left/Right Columns Wrapper -->
+
+					  <div class='left-column' style='display:inline-block;'><!-- RIGHT COLUMN Left Column -->
+							<div id='view-box' style='display:flex; align-items:center; justify-content:center;'>
+								<img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}'  
+									style='width:320px; height:280px; border:0 transparent; 
+									object-fit:cover; object-position:center center;'>
+							</div>
+						</div><!-- End RIGHT COLUMN Left Column -->
+
+						<div class='right-column text-left' style='display:flex; 
+								flex-wrap:wrap; align-items:center; justify-content:flex-start;'><!-- RIGHT COLUMN Right Column -->
+							<div class='description'>
+								{% if current_user.is_admin %}
+								<span style='font-size:12px; color:#358ED7; letter-spacing:1px; 
+										text-transform:uppercase; text-decoration:none;'>
+									{{ user.email }}
+								</span>
+								{% endif %}
+								<h1 style='font-weight:300; font-size:52px; color:#43484D; letter-spacing:-2px;'>
+									{% if user.last_name == None %}
+									  {{ user.username }}
+									{% else %}
+									  {{ user.designation }}. {{ user.given_name }} {{ user.last_name }}
+									{% endif %}
+								</h1>
+								{% if user.practice != None %}
+								<span style='font-size:18px; color:#555;'>
+									{{ user.practice }}
+								</span>
+								{% endif %}
+								{% if user.profession == 'Doctor' %}
+								<p style='font-size:16px; font-weight:300; color:#86939E; line-height: 24px;'>
+									{{ user.about_me }}
+								</p>
+								{% endif %}
+								{% if current_user.is_superadmin %}
+									<small class='text-muted'>Last seen on: {{ user.last_seen | datetimeformat }}</small>
+								{% endif %}
+
+								<br>
+
+								{% if current_user == user %}
+									<a rel='noopener noreferrer' 
+											 href='{{ url_for("user.update", user_id=user.id) }}'
+											style='color:#555;'>
+										<span class='small' style='color:rgb(254, 125, 1);'>edit</span>
+									</a>
+								{% endif %}
+
+					    </div>
+					  </div><!-- End RIGHT COLUMN Right Column -->
+
+					</div><!-- End RIGHT COLUMN Left/Right Columns Wrapper -->
+
+				</div>
+			</div><!-- End CONTENT Row 1 -->
+
+			<section id='' style='background:#FFFFFF; min-height:15vh;'>
+				<div class='container-fluid' 
+						style='display:flex; align-items:center; justify-content:center;'><!-- CONTENT Row 2 -->
+					{% if user != current_user %}
+						{% for company in user.workplaces %}
+							<div class="product-configuration">
+								{% if current_user in company.employees %}										
+								<a rel='noopener noreferrer' 
+										href='{{ url_for("chat.chat", recipient=user.username) }}' class='btn-mod'>
+									Private Message
+								</a>
+								{% endif %}
+							{% endfor %}
+						</div>
+					{% endif %}
+				</div>
+			</section>
+
+			{% if company in workplaces != None %}
+				<section id='' style='padding:3em 0; background:#FAFAFA;'>
+					<div class='container-fluid' style='display:flex; align-items:center; justify-content:center;'><!-- CONTENT Row 3 -->
+						<div style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+
+							{% for company in user.workplaces %}
+								<a rel='noopener noreferrer' 
+										href='{{ url_for("company.profile", company_id=company.id) }}'>
+									<div class='card' 
+											style='width:320px; height:170px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+										<div class='card-body' 
+												style='width:320px; height:170px; background:rgb(21, 31, 42, 0.9); border-radius:20px; 
+												overflow:hidden; display:flex; align-items:center; justify-content:center;'>
+											<div class='container' style='line-height:0.9;'>
+												{% for user in company.administrators[:1] %}	
+													<img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}' 
+														style='height:60px; width:60px; margin-right:16px; object-fit:cover; object-position:center center; box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+												{% endfor %}
+												{% for user in company.employees[:5] %}	
+													<img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}' 
+														style='height:30px; width:30px; margin-left:-8px; object-fit:cover; object-position:center center; box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+												{% endfor %}
+
+												<h6 class='pt-1'>{{ company.name }}</h6>
+												{% for user in company.administrators %}
+													<small style='color:#F0FFFF;'>Admin: {{ user.username }}</small><br>
+												{% endfor %}
+											</div>
+										</div>
+									</div><!-- End Card -->
+								</a>
+							{% endfor %}
+
+						</div>
+					</div><!-- End CONTENT Row 3 -->
+				</section>
+				{% endif %}
+
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

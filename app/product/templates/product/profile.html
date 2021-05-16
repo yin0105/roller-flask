@@ -1,0 +1,96 @@
+{% extends 'base/layout.html' %}
+
+
+{% block content %}
+<div style='min-height:90vh;  display:flex; align-items:center; justify-content:center;'>
+	<div class='container' style='min-height:60vh;'>
+
+		<!-- Left & Right Columns Wrapper -->
+		<div class='product-container' style='margin-bottom:40px'>
+
+		  <!-- Left Column / Image -->
+		  <div class='left-column' style='display:inline-block;'>
+				<div id='view-box' style='display:flex; align-items:center; justify-content:center;'>
+					{% for picture in product.pictures %}
+					<img id='view' src='{{ url_for("product.get_image", picture_id=picture.id, filename=picture) }}' 
+						style='width:360px; height:360px; border:0 transparent; object-fit:fill; object-position:center center;'>
+					{% endfor %}
+				</div>
+				
+				<div id='thumbs' 
+						style='min-height:16vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-start;'>
+					{% if current_user in company.administrators %}
+						<button class='btn' style=''>
+							<a rel='noopener noreferrer' 
+								href='{{ url_for("product.upload", product_id=product.id) }}' 
+								class='btn btn-default' style='text-decoration:none;'>
+								<span class="fa-stack"><i class="fa fa-upload fa-stack-1x"></i></span>
+							</a>
+						</button>	
+					{% endif %}
+
+					{% for picture in product.pictures %}
+						{% if current_user in company.administrators %}
+							<a rel='noopener noreferrer' 
+									href='{{ url_for("product.delete_image", 
+										product_id=product.id, picture_id=picture.id, filename=picture) }}' 
+									style='color:#555;'>
+								<span class="fa-stack">
+									<i class='fa fa-times-circle fa-stack-1x'></i>
+								</span>
+							</a>
+						{% endif %}
+						<img src='{{ url_for("product.get_image", picture_id=picture.id, filename=picture) }}' loading='lazy'
+							style='height:40px; width:40px; margin-left:-10px; overflow:hidden; border:0 transparent; object-fit:fill; object-position:center center;'>
+					{% endfor %}			
+				</div>
+			</div>
+
+
+			<!-- Right Column -->
+			<div class='right-column'>
+				<!-- Product Description -->
+				<div class='product-description'>
+					<span style='font-size:12px; color:#358ED7; letter-spacing:1px; text-transform:uppercase; text-decoration:none;'>
+						{{ product.brand }} | {{ company.name }}
+					</span>
+
+					<h4 style='font-weight:300; font-size: 52px; color:#43484D; letter-spacing:-2px;'>
+						{{ product.model }}
+					</h4>
+
+		      <p style='font-size:16px; font-weight:300; color:#86939E; line-height: 24px;'>
+		      {{ product.description }}
+		    	</p>
+
+					{% if current_user in company.administrators %}
+						<a rel='noopener noreferrer' 
+								href='{{ url_for("product.update", product_id=product.id) }}'
+								style='color:#555;'>
+							<span class='small' style='color:rgb(254, 125, 1);'>edit</span>
+						</a>
+						<span class='small text-muted'> | </span>
+						<a rel='noopener noreferrer' 
+								href='{{ url_for("product.delete", product_id=product.id) }}' 
+								style='color:#555;'>
+							<span class='small' style='color:rgb(254, 125, 1);'>delete</span>
+						</a>
+					{% endif %}
+		    </div>
+
+		    <!-- Product Pricing -->
+		    <div class='product-price'>
+		    	<!-- format_price() defined in robo.py utility processor -->
+		      <span>{{ product.currency }} {{ product.amount | format_amount }}</span>
+		      <a rel='noopener noreferrer' href='{{ url_for("cart.add_item", product_id=product.id) }}'
+		      		class='btn-mod'>
+		      	Add to cart
+		    	</a>
+		    </div>
+		  </div>
+
+		</div>
+
+	</div>
+</div>
+{% endblock %}

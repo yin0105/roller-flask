@@ -1,0 +1,344 @@
+body, html { 
+  font-size: 18px;
+  font-family: sans-serif, signika negative;
+  min-height: 100vh; 
+  margin: 0; 
+}
+
+.navbar { 
+  height: 12vh;
+  background-color: transparent !important;
+}
+.navbar .navbar-brand {  
+  display: inline-block;
+}
+.navbar .navbar-nav li a {
+  display: inline-block; 
+  color: #000000; 
+  font-size: 18px;
+  border-radius: 20px;
+  margin-left: 16px;
+  padding: 10px 20px;
+  cursor: pointer; 
+  transition: all .5s; 
+}
+.navbar .navbar-nav li a:visited {
+  color: #000000; 
+}
+.navbar .navbar-nav li a:hover,
+.navbar .navbar-nav li a:focus,
+.navbar .navbar-nav li a:active { 
+  color: #FFFFFF !important; 
+  background-color: rgba( 69, 69, 69, 0.7); 
+}
+.custom-toggler.navbar-toggler {
+  border-color: rgb(0,0,0); 
+}
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(0,0,0,0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+@media only screen and (max-width: 768px) {
+  #navbarMenu { 
+    width:100vw;
+    height:100%;
+    margin-top: 20px;
+    padding: 40px 20px;
+    z-index: 1;
+    background: rgb(240,248,255);
+    transition: all .5s; 
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .hide-div {
+    display: none;
+  }
+}
+
+
+a {
+  color: #3498db;
+  text-decoration: none !important;
+}
+
+
+.sidenav {
+  width: 14vw;
+  height: 100%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  position: fixed;
+  overflow-x: hidden;
+  background: rgba(0, 0, 0, 0.9);
+}
+.sidenav a {
+  color: #818181;
+  text-decoration: none;
+  padding-left: 0;
+  transition: 0.5s;
+}
+.sidenav a:visited {
+  color: #818181;
+}
+.sidenav a:hover,
+.sidenav a:focus,
+.sidenav a:active {
+  color: #FFFFFF !important;
+}
+@media only screen and (max-width: 768px) { 
+  .sidenav { 
+    display: none !important;
+  }
+}
+
+
+#card-shadow a {
+  color: #818181;
+  border: 1px solid transparent;
+  margin: auto;
+  padding:0;
+}
+#card-shadow a:visited {
+}
+#card-shadow a:hover,
+#card-shadow a:focus,
+#card-shadow a:active {
+  border: 1px solid rgb(220,220,220);
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); 
+}
+
+
+footer { 
+  background-color: #000000;
+  padding: 50px 0;
+}
+
+
+.btn-default { 
+  border:1px solid rgba( 69, 69, 69, 0.8);
+  color: #000000; 
+}
+.btn-default:hover {
+  background-color: rgba( 69, 69, 69, 0.8); 
+  color: #ffffff; 
+}
+.btn-border {
+  border:1px solid rgba( 69, 69, 69, 0.8);
+}
+
+.btn-mod {
+  display: inline-block;
+  color: #fff;
+  background-color: rgb(105,105,105);
+  border: 3px solid rgb(105,105,105);
+  border-radius: .3rem;
+  padding: .5rem 1rem;
+  margin: 1em 0;
+  line-height: 1.5;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-align: center;
+  vertical-align: middle;
+}
+.btn-mod:hover {
+  color: #fff;
+  background-color: rgb(0,0,0);
+  border: 3px solid rgb(119,136,153);
+}
+.btn-mod:active {
+  color: rgb(119,136,153);
+  background-color: rgb(0,0,0);
+  border: 3px solid rgb(119,136,153);
+}
+/*  transform: scale(1.02); */
+
+/* Thumbnails & Views */
+.thumbs img, .view img {
+  display:inline-block;
+  text-align: center; 
+}
+.thumbs img.selected { 
+  border:1px solid red;
+}
+
+.card-header {
+  background-color: transparent;
+  border: 0;
+  padding: 40px;
+}
+
+.scroll .intro {
+  transform: scale(0.98);
+}
+.intro {
+  background-attachment: fixed;
+  transition: transform 0.5s ease-in-out;
+}
+.intro::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: linear-gradient(
+    rgba(255, 255, 255, 0.9),
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0.5)
+  );
+}
+.intro .container-fluid {
+  z-index: 10;
+}
+
+.product-container {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+}
+.left-column {
+  width: 60%;
+  position: relative;
+  margin: auto;
+}
+.right-column {
+  width: 40%;
+
+}
+@media (max-width: 768px) {
+  .product-container {
+    flex-direction: column;
+    margin-top: 60px;
+  }
+  .left-column,
+  .right-column {
+    width: 100%;
+  }
+  .left-column img {
+    width: 300px;
+    right: 0;
+    top: -65px;
+    left: initial;
+  }
+  .right-column {
+    margin-top: 10px;
+}
+}
+@media (max-width: 768px) {
+  .left-column img {
+    top: -85px;
+  }
+}
+
+.description {
+  margin-bottom:20px;
+}
+.product-description {
+  margin-bottom:20px;
+}
+.product-price {
+  display: flex;
+  align-items: center;
+}
+.product-price span {
+  font-size: 26px;
+  font-weight: 300;
+  color: #43474D;
+  margin-right: 20px;
+}
+.product-color {
+  margin-bottom: 30px;
+}
+.color-choose div {
+  display: inline-block;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;] {
+  display: none;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;] + label span {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  cursor: pointer;
+  border-radius: 50%;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;] + label span {
+  border: 2px solid #FFFFFF;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.33);
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]#red + label span {
+  background-color: #C91524;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]#blue + label span {
+  background-color: #314780;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]#black + label span {
+  background-color: #323232;
+}
+.color-choose input[type=&amp;quot;radio&amp;quot;]:checked + label span {
+  background-image: url(images/check-icn.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* Product Cable Configuration */
+.cable-choose {
+  margin-bottom: 20px;
+}
+.cable-choose button {
+  border: 2px solid #E1E8EE;
+  border-radius: 6px;
+  padding: 13px 20px;
+  font-size: 14px;
+  color: #5E6977;
+  background-color: #FFF;
+  cursor: pointer;
+  transition: all .5s;
+}
+.cable-choose button:hover,
+.cable-choose button:active,
+.cable-choose button:focus {
+  border: 2px solid #86939E;
+  outline: none;
+}
+.cable-config {
+  border-bottom: 1px solid #E1E8EE;
+  margin-bottom: 20px;
+}
+.cable-config a {
+  color: #358ED7;
+  text-decoration: none;
+  font-size: 12px;
+  position: relative;
+  margin: 10px 0;
+  display: inline-block;
+}
+.cable-config a:before {
+  content: &amp;quot;?&amp;quot;;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  border: 2px solid rgba(53, 142, 215, 0.5);
+  display: inline-block;
+  text-align: center;
+  line-height: 16px;
+  opacity: 0.5;
+  margin-right: 5px;
+}
+
+.fa-stack-mod {
+  position: relative;
+  display: inline-block;
+  width: 2em;
+  height: 1em;
+  line-height: 1em;
+  vertical-align: middle;
+  margin-bottom:0;
+  *, ::after, ::before { 
+    box-sizing: border-box;
+  }
+}

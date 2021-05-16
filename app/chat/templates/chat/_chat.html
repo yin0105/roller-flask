@@ -1,0 +1,42 @@
+{% set chat_user = chat.other(current_user.id) %}
+{% if chat_user != None %}
+  <table class='table table-hover' {% if current_user.unread_msgs(chat.id) %}style="background-color:#187fff1c"{% endif %}>
+    <tr>
+      <td style='width:70px'>
+        <a href='{{ url_for("user.profile", user_id=chat_user.id, username=chat_user.username) }}'>
+          <img src='{{ url_for("static", filename="uploads/selfie_img/" + chat_user.selfie_file) }}' 
+            style='width:180px; height:120px; object-fit:cover; object-position:center center; 
+            border-color:{% if chat_user.online %} #86BB71 {% endif %}'/> 
+        </a>
+      </td>
+      <td>
+        {% set user_link %}
+          <span class='user_popup'>
+            <a href='{{ url_for("user.profile", user_id=chat_user.id, username=chat_user.username) }}'>
+              {{ chat_user.username }}
+            </a>
+          </span>
+        {% endset %}
+
+        <h4>Chat with {{ user_link }}</h4>
+
+        <span id="chat_count" class="badge"
+            style="display: 
+            {% if current_user.unread_msgs(chat.id) %}
+              inline-block 
+            {% else %}
+              none 
+            {% endif %};"> 
+          {{ current_user.unread_msgs(chat.id) }}
+        </span>
+        <small class='text-muted'>{{ chat.last_msg().timestamp | datetimeformat }}</small><br>
+        {{ chat.last_msg().author.username }} said: {{ chat.last_msg().body }}
+        <br>
+        <a href="{{ url_for('chat.chat', recipient=chat_user.username) }}" 
+        class="btn btn-primary btn-xs chat-btn">
+          Chat Now
+        </a>
+      </td>
+    </tr>
+  </table>
+{% endif %}

@@ -1,0 +1,94 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:rgb(225,225,225);'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+    <div class='container-fluid hide-div' 
+        style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+      {% include 'sidebar/_admin_sidebar.html' %}
+    </div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_navbar.html' %}
+
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div class='container hide-div'>
+				<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+			</div>
+
+			<iframe src='{{ url_for("geomap.show") }}' style='width:100%; height:30vh; border:transparent;'></iframe>
+
+			<div class='hide-div py-4' 
+					style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+				<table class='table table-sm table-borderless table-hover' style='width:90%;'>
+					<thead style='margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,.1)'>
+						<tr style='text-align:left;'>
+							<th scope='col'>Cart ID</h1></th>
+							<th scope='col'>Owner</th>
+							<th class='hide-div' scope='col'>Items</th>
+							<th class='hide-div' scope='col'></th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for cart in carts %}
+					<tr style='text-align:left;' class='clickable-row' rel='noopener noreferrer'
+							data-href='{{ url_for("admin.show_cart", cart_id=cart.id) }}'>
+						<td style='width:10%; vertical-align:middle;'>	
+							{{ cart.user_id }}
+						<td style='width:30%; vertical-align:middle;'>
+							{{ cart.owner.username }}	 
+						</td>
+						<td class='hide-div' style='width:50%; vertical-align:middle;'>
+							{% if cart.cart_items | list |length ==0 %}
+								<Small>Empty</Small>
+							{% else %}
+								{% for cart_item in cart.cart_items %}
+									<Small>ID:{{ cart_item.id }} {{ cart_item.model }}</Small>
+									<small class='hide-div'>{{ cart_item.brand }}</small>
+									<br>
+									<span style='color:grey; font-size:0.5em;'>
+										Total product(s): {{ cart.cart_items | list |length }}
+									</span>
+								{% endfor %}
+							{% endif %}
+						</td>
+						<td class='hide-div' style='width:10%; vertical-align:middle;'>
+							{% if current_user.is_superadmin %}
+							<a rel='noopener noreferrer'
+									href='{{ url_for("cart.delete", cart_id=cart.id, user_id=cart.id) }}' style='color:#000000;'>
+								<span class="fa-stack">
+									<i class="fa fa-trash-o fa-stack-1x"></i>
+								</span>
+							</a>
+							{% endif %}
+						</td>
+					</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</div><!-- End CONTENT 1 -->
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickable-row").click(function() {
+			window.location = $(this).data("href");
+		});
+	});
+	</script>
+{% endblock %}

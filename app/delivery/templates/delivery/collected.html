@@ -1,0 +1,69 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:rgb(225,225,225);'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- COLUMN -->
+
+			{% include 'navbar/_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div class='container hide-div'>
+				<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+			</div>
+
+			<iframe src='{{ url_for("geomap.delivery_dropoff_map", delivery_id=delivery.id) }}' 
+					style='width:100%; height:30vh; border:transparent;'></iframe>
+
+			<div class='container' 
+					style='min-height:40vh; display:flex; align-items:center; justify-content:center;'>
+				<table class='table table-sm table-borderless table-hover' style='width:100%;'>
+					<thead style='margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,.1)'>
+						<tr style='text-align:left;'>
+							<th scope='col'>Collect</th>
+							<th scope='col'>Distance</th>
+							<th scope='col'>Dropoff</th>
+							<th scope='col'></th>
+						</tr>
+					</thead>
+					<tbody>
+
+						<tr style='text-align:left;'>
+							<td style='vertical-align:middle;'>
+								{{ delivery.incoming_order.supplier.name }}<br>
+								<span style='color:grey; font-size:0.5em;'>
+									{{ delivery.incoming_order.supplier.address }} 
+									{{ delivery.incoming_order.supplier.country }}
+									{{ delivery.incoming_order.supplier.zip_code }}
+								</span>
+							</td>
+							<td style='vertical-align:middle;'>
+								{{ delivery.dropoff_dist }} {{ delivery.unit }}
+							</td>
+							<td style='vertical-align:middle;'>
+								{{ delivery.incoming_order.order.buyer.username }}<br>
+								<span class='hide-div' style='color:grey; font-size:0.5em;'>
+									{{ delivery.incoming_order.order.buyer.address }} 
+									{{ delivery.incoming_order.order.buyer.country }}
+									{{ delivery.incoming_order.order.buyer.zip_code }}
+								</span>
+							</td>
+							<td style='vertical-align:middle;'>
+								<a href='{{ url_for("delivery.delivered", delivery_id=delivery.id) }}' 
+									class='btn-mod text-grey' role='button'>Delivered</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+		</div><!-- End COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

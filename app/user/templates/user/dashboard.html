@@ -1,0 +1,163 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div class='container'>
+				{% if user.profession == 'Doctor'%}
+					<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>Doctor Dashboard</h2>
+				{% else %}
+					<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+				{% endif %}
+			</div>
+
+			<iframe src='{{ url_for("geomap.show") }}' style='width:100%; height:30vh; border:transparent;'></iframe>
+
+			<div class='hide-div py-4' 
+					style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+
+				<!-- If user.phone==none go to edit profile booking.dashboard -->
+				{% if current_user.profession == 'Others' %}
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("booking.dashboard", user_id=user.id) }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>
+								<h3 style='margin:0; font-family:Roboto, sans-serif; color:#F0FFFF;'>
+									{{ bookings_sent | list | length }}
+								</h3>
+								<p style='margin:0; color:#F0FFFF;'>Tele-List</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-clock-o fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+				{% endif %}
+
+				{% if current_user.profession == 'Others' %}
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("health_check.check_list", user_id=current_user.id) }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>
+								<h3 style='margin:0; font-family:Roboto, sans-serif; color:#F0FFFF;'>
+								</h3>
+								<p style='margin:0; color:#F0FFFF;'>Book Telemed</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-user-md fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<a rel='noopener noreferrer' 
+					href='{{ url_for("health_record.show", user_id=current_user.id , health_record_id=current_user.id) }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>
+								<h3 style='margin:0; font-family:Roboto, sans-serif; color:#F0FFFF;'>
+								</h3>
+								<p style='margin:0; color:#F0FFFF;'>My Health Record</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-id-card-o fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+				{% endif %}
+
+				{% if current_user.is_courier %}
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("delivery.jobs") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ new_deliveries | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Delivery Jobs</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-truck fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+				{% endif %}
+
+				{% for company in user.workplaces %}
+					<a rel='noopener noreferrer' 
+							href='{{ url_for("company.profile", company_id=company.id) }}'>
+						<div class='card' 
+								style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+							<div class='card-body' 
+									style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+												display:flex; align-items:center; justify-content:center;'>
+								<div class='' style='width:65%; display:inline-block;'>
+									<span style='margin:0; font-family:Roboto, sans-serif; color:#F0FFFF;'>
+										<span style='margin:0; font-size:0.3em; color:#F0FFFF;'>
+											Bookings: 
+										</span>
+										{{ company.bookings_received | list | length }}
+									</span>
+									<span style='margin:0; font-family:Roboto, sans-serif; color:#F0FFFF;'>
+										<span style='margin:0; font-size:0.3em; color:#F0FFFF;'>
+											Orders: 
+										</span>
+										{{ company.incoming_orders | list | length }}
+									</span>
+									<p style='margin:0; font-size:0.3em; color:#F0FFFF;'>{{ company.name }}</p>
+								</div>
+								<div class='' style='width:35%;'>	
+									<img src='{{ url_for("static", filename="uploads/logo_img/" + company.logo_file) }}'  
+										style='width:100px; height:140px; border:0 transparent; 
+										object-fit:cover; object-position:center center;'>
+								</div>
+							</div>
+						</div><!-- End Card -->
+					</a>
+				{% endfor %}
+
+			</div><!-- End CONTENT 1-->
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

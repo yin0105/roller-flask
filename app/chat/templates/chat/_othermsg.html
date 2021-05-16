@@ -1,0 +1,9 @@
+<li>
+	<div class="message-data">
+		<span class="message-data-name"><span class="mydot online"></span> {{ msg.author.username }}</span>
+		<span class="message-data-time">{{ msg.timestamp | datetimeformat }}</span>
+	</div>
+	<div class="message my-message">
+		{{ msg.body }}
+	</div>
+</li>

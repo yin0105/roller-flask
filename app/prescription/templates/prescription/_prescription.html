@@ -1,0 +1,34 @@
+<div class='py-4' style='display:flex; align-items:center; justify-content:flex-start;'>
+  <div class='card' 
+      style='width:280px; min-height:140px; border:1px solid black; border-radius:20px;'><!-- card -->
+    <div class='card-body' 
+        style='width:270px; min-height:140px; background:#FFFFFF; border-radius:20px; 
+          overflow:hidden; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+      <div class='container'>
+        <h5 style='color:#000000; font-weight:900;'>
+          Prescription
+        </h5>
+        <h6 class='py-1' style='font-size:0.8em; color:#000000;'>
+          {{ prescription.customer.username }}
+        </h6>
+
+        <h6 style='font-size:0.9em; color:#000000; text-align:justify;'>
+          {% for product in prescription.products %}
+            {{ product.model }}
+          {% endfor %}
+        </h6>
+
+        <h6 style='font-size:0.9em; color:#000000; text-align:justify;'>
+          {{ prescription.body }}
+        </h6>
+
+        <small style='color:#000000;'>
+          Issued by: {{ prescription.provider.username }}
+        </small>
+        <small style='color:#000000; font-size:0.5em;' >
+          (Digital prescription is not allowed for exchange of medications.)
+        </small>
+      </div>
+    </div>
+  </div><!-- End Card -->
+</div>

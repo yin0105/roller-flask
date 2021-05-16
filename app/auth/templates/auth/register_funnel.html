@@ -1,0 +1,295 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<section id='' class='d-flex align-items-center position-relative vh-90 cover intro' 
+		style='background-image:url("/static/uploads/app_img/pexels-gustavo-fring-4173249.jpg"); 
+						display:flex; align-items:center; justify-content:center;
+						background-size: cover; 
+						background-repeat: no-repeat; 
+						background-position: center center; 
+						background-attachment: fixed;'>
+	<div class='container-fluid' style='min-height:90vh; 
+			display:flex; align-items:center; justify-content:center;'>
+		<!-- Whatsapp Floating Button -->
+		<a href='https://api.whatsapp.com/
+				send?phone=+6598632844&text='
+				target='_blank'style='position:fixed; width:60px; height:60px; bottom:40px; right:40px; 
+				background-color:#25d366; color:#FFF; border-radius:50px; text-align:center; 
+				font-size:30px; box-shadow:2px 2px 3px #999; z-index:100;'>
+			<i class='fa fa-whatsapp' style='margin-top:16px;'></i>
+		</a>
+		<div class='row text-center'>
+			<div class='col-12'>
+				<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+					whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+				</h2>
+			</div>
+			<div class='col-12 pb-5'>
+				<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+					Teleconsult with a Trusted Doctor
+				</h1>
+				<a rel='noopener noreferrer' href='#register' 
+						class='btn-mod' style='width:7em; background-color:#6FB2FF; border:none;'>
+					REGISTER
+				</a>
+				<br>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section id='' class='d-flex align-items-center position-relative vh-50'
+		style='display:flex; align-items:center; justify-content:center; margin-top:-12%; z-index:1;'>
+	<div class='container-fluid' style='min-height:50vh;
+			display:flex; align-items:center; justify-content:center;'>
+		<div class='row text-center py-5' style='width:90%; background:#FFFFFF;
+					box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.38); 
+						display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+			<div class='py-2' style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+				<div class='col-12 col-sm-6 col-lg-4'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-clock-o fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-2 text-grey' 
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Save Time
+					</h4>
+					<p>No travelling and queuing at the clinic. Let us match you with a doctor within minutes.</p>
+				</div>
+				<div class='col-12 col-sm-6 col-lg-4'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-money fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-2 text-grey' 
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Save Money
+					</h4>
+					<p>A typical walk-in average cost is $60. Tele-consultation is more than 40% cheaper.</p>
+				</div>
+				<div class='col-12 col-sm-6 col-lg-4'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-thermometer-full fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-2 text-grey' 
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						No Risk
+					</h4>
+					<p>Avoid unnessary exposure to cross-infection by limiting physical interactions.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% if availability in now_availabilities != None %}
+<section class='py-4'>
+	<div class='container-fluid' style='display:flex; align-items:center; justify-content:center;'>
+		<h4 class='pb-2' style='color:#808080;'>Now Available</h4>
+	</div>
+	<div class='container-fluid' style='min-height:50vh; display:flex; align-items:center; justify-content:center;'>
+		<div class='col-12 pb-4 text-left' style='display:flex; flex-wrap:wrap;  align-items:center; justify-content:center;'>
+			{% for availability in now_availabilities[:8] %}
+				{% if availability.provider.is_physician %}
+						<a href='{{ url_for("user.profile", 
+								username=availability.provider.username, user_id=availability.provider.id) }}'>
+							<div class='card' 
+									style='width:320px; height:170px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+								<div class='card-body' 
+										style='width:320px; height:170px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+									<div class='container' style='line-height:0.1;'>	
+										<img src='{{ url_for("static", filename="uploads/selfie_img/" + availability.provider.selfie_file) }}' 
+											style='height:60px; width:60px; margin-left:-4px; object-fit:cover; object-position:center center; box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+										<h6 class='py-1'>{{ availability.provider.username }}</h6>
+										{% if availability.provider.practice != None %}
+										<h6 style='color:#F0FFFF;'>{{ availability.provider.practice }}</h6><br>
+										{% endif %}
+										<span style='color:#F0FFFF; font-size:0.3em;'>{{ availability.company.name }}</span>
+									</div>
+								</div>
+							</div><!-- End Card -->
+						</a>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endif %}
+
+
+{% if product in products != None %}
+<section class='py-4' style='background:#FFFFFF;'>
+	<div class='container-fluid' style='display:flex; align-items:center; justify-content:center;'>
+		<h4 class='pb-2' style='color:#808080;'>Popular</h4>
+	</div>
+	<div id='card-shadow' class='container-fluid' 
+			style='min-height:50vh; display:flex; align-items:center; justify-content:center;'>
+		<div class='col-12 pb-4 text-left' style='display:flex; flex-wrap:wrap;  align-items:center; justify-content:center;'>
+			{% for product in products %}
+				<a rel='noopener noreferrer' href='{{ url_for("product.profile", product_id=product.id) }}' style=''>
+					<div class='card text-center' 
+							style='width:180px; height:270px; margin:20px; background:transparent; border:0;'><!-- card -->
+						<div class='' style='width:180px; height:200px;'>
+							<img src='{{ url_for("static", filename="uploads/product_img/" + product.feature_picture) }}'
+								style='width:180px; height:200px; overflow:hidden; object-fit:fill; object-position:center center;'>
+						</div>
+						<div class='card-body' style='width:180px; height:40px; overflow:hidden; 
+								display:flex; flex-direction:column; align-items:center; justify-content:center;'>
+							<small style='color:#000000; line-height:15px;'>{{ product.model }}</small>
+							<button rel='noopener noreferrer' href='{{ url_for("product.profile", product_id=product.id) }}' 
+									class='btn btn-secondary my-1'>
+								<small>Buy now</small>
+							</button>
+
+						</div>
+					</div><!-- End Card -->
+				</a>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+{% endif %}
+
+
+<section class='py-4' style='background:#FFFFFF;'>
+	<div class='container-fluid' style='min-height:50vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+		<div class='col-12 col-sm-6 col-lg-5 my-2' style='height:100%;'>
+			<img src="/static/uploads/app_img/instagram-post-1080x1080-px-1.jpeg" alt="IMAGE" 
+				style='width:100%; 
+					display:flex; align-items:center; justify-content:center;
+					background-size: cover; 
+					background-repeat: no-repeat; 
+					background-position: center center; 
+					background-attachment: fixed;
+					box-shadow: 5px 10px 8px 10px #888888;'>
+		</div>
+		<div class='col-12 col-sm-6 col-lg-5 my-2' style='height:100%;'>
+			<h4 class='mt-2' 
+					style='font-family:Montserrat,sans-serif; font-weight:500; color:#6FB2FF;'>
+				Conditions Suitable for Tele-Consultation
+			</h4>
+			<ul>
+				<li>Fever below 38<sup>o</sup>deg C</li>
+				<li>Sore throat</li>
+				<li>Diarrhoea</li>
+				<li>Flu, Cough & Cold</li>
+				<li>Sinusitis</li>
+				<li>Rash and skin conditions</li>
+				<li>Cold sores</li>
+				<li>Red eye</li>
+			</ul>
+		</div>
+	</div>
+</section>
+
+
+<section class='py-1' style='background:#FFFFFF;'>
+	<div class='container-fluid'>
+		<div class='row text-center pt-4'>
+			<div class='col-12 py-4'>
+				<h2 style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+					How It Works
+				</h2>
+			</div>
+			<div class='py-2' style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+				<div class='col-12 col-sm-6 col-lg-3'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-user-md fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-3'
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Schedule
+					</h4>
+					<p>Book at any time that is convenient for you anytime anywhere.</p>
+				</div>
+				<div class='col-12 col-sm-6 col-lg-3'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-list fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-3'
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Checklist
+					</h4>
+					<p>Complete a tele-health consultation eligibility checklist.</p>
+				</div>
+				<div class='col-12 col-sm-6 col-lg-3'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa fa-credit-card fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-3'
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Payment
+					</h4>
+					<p>Checkout and pay online with your favorite card.</p>
+				</div>
+				<div class='col-12 col-sm-6 col-lg-3'>
+					<span class='fa-stack fa-2x'>
+						<i class='fa fa-circle fa-stack-2x text-grey'></i>
+						<i class='fa fa-video-camera fa-stack-1x text-white'></i>
+					</span>
+					<h4 class='mt-3'
+							style='font-family:Montserrat,sans-serif; font-weight:100; color:#6FB2FF;'>
+						Tele-Consult
+					</h4>
+					<p>A doctor will connect with you on a video call in 15 minutes.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id='register' class='py-4' style='background:#FFFFFF;'>
+	<div class='container-fluid p-2' 
+			style='min-height:100vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+		<div class='col-12 col-sm-12 col-lg-6 px-4 my-2'>
+			<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+				whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+			</h2>
+			<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+				Teleconsult with a
+				<span style='font-family:Montserrat,sans-serif; font-weight:900; color:#6FB2FF;'>
+					Trusted
+				</span>
+				Doctor anytime anywhere
+			</h1>
+		</div>
+		<div class='col-12 col-sm-12 col-lg-4 my-2'>
+			{{ wtf.quick_form(form) }}
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	<!-- Facebook Pixel Code -->
+	<script>
+		!function(f,b,e,v,n,t,s)
+		{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+		n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+		if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+		n.queue=[];t=b.createElement(e);t.async=!0;
+		t.src=v;s=b.getElementsByTagName(e)[0];
+		s.parentNode.insertBefore(t,s)}(window, document,'script',
+		'https://connect.facebook.net/en_US/fbevents.js');
+		fbq('init', '1655499614633428');
+		fbq('track', 'PageView');
+	</script>
+	<noscript>
+		<img height="1" width="1" style="display:none"
+			src="https://www.facebook.com/tr?id=1655499614633428&ev=PageView&noscript=1"/>
+	</noscript>
+	<!-- End Facebook Pixel Code -->
+{% endblock %}

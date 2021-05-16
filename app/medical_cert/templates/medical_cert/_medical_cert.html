@@ -1,0 +1,30 @@
+{% if mc.num_of_unfit_days != None %}
+<div style='display:flex; align-items:center; justify-content:flex-start;'>
+  <div class='card' 
+      style='width:280px; min-height:140px; border:1px solid black; border-radius:20px;'><!-- card -->
+    <div class='card-body' 
+        style='width:270px; min-height:140px; background:#FFFFFF; border-radius:20px; 
+          overflow:hidden; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+      <h5 style='color:#000000; font-weight:900;'>
+        Medical Certificate
+      </h5>
+      <h6 class='py-1' style='font-size:0.9em; color:#000000;'>
+        {{ mc.customer.name_shown }}
+      </h6>
+      <p style='font-size:0.8em; color:#000000; text-align:justify;'>
+        is unfit for duties for 
+        <span style='font-size:1.3em; font-weight:900;'>
+          {{ mc.num_of_unfit_days }}
+        </span> 
+        days starting from {{ mc.created_on.strftime('%a, %d %b %Y') }}
+      </p>
+      <small style='color:#000000;'>
+        Issued by: {{ mc.provider.name_shown }}
+      </small>
+      <small style='color:#000000; font-size:0.5em;' >
+        (This certificate is not valid for absence from court or other judicial proceedings unless specially stated.)
+      </small>
+    </div>
+  </div><!-- End Card -->
+</div>
+{% endif %}

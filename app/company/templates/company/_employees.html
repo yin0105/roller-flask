@@ -1,0 +1,41 @@
+{% if user in company.employees != None %}
+<section id='' class='py-5' style='background:#FBF8EE;'><!-- TEAM CONTENT -->
+	<div class='container' style='width:80%;'>
+		<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>People</h2>
+	</div>
+
+	<div style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+		{% for user in company.employees %}
+			<a rel='noopener noreferrer' href='{{ url_for("user.profile", user_id=user.id, username=user.username) }}'>
+				<div class='card text-center' 
+						style='width:200px; height:150px; margin:20px; background:transparent; border:0;'><!-- card -->
+					<div class='' style='width:200px; height:70px;'>
+							<img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}' 
+								style='height:80px; width:80px; overflow:hidden; object-fit:cover; object-position:center center; border-radius:9999px'>
+					</div>
+					<div class='card-body' style='width:200px; height:30px; overflow:hidden;'>
+						{% if current_user in company.administrators %}
+							{% if user != current_user %}
+								<a rel='noopener noreferrer'
+										href='{{ url_for("company.remove_employee", company_id=company.id, user_id=user.id) }}' 
+										style='color:#000000;'>
+									<span class="fa-stack">
+										<i class='fa fa-times-circle fa-stack-1x'></i>
+									</span>
+								</a>
+							{% endif %}
+						{% endif %}
+						<small style='color:#000000'>
+							{{ user.username }} <br>
+							{% if user in company.administrators %}
+							 administrator
+							{% endif %}
+						</small>
+
+					</div>
+				</div><!-- End Card -->
+			</a>
+		{% endfor %}
+	</div>
+</section>
+{% endif %}

@@ -1,0 +1,98 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid hide-div' 
+				style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+			{% include 'sidebar/_company_sidebar.html' %}
+		</div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_company_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div class='container' style='min-height:40vh; display:flex; align-items:center; justify-content:center;'>
+				<div class='jumbotron-fluid' style='width:100%;'>
+					<div class='container' style='min-height:10vh; display:flex; 
+							align-items:center; justify-content:space-between;'>
+						<a rel='noopener noreferrer' href='{{ url_for("user.dashboard", user_id=current_user.id, 
+								username=current_user.username) }}'>
+							<h5 class='text-right'>Dashboard</h5>
+						</a>
+						<h5 class='text-right'>Clinic</h5>
+					</div>
+
+					<div class='hide-div py-4'
+							style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+						<div class='container-fluid'>
+							<nav>
+								<div class='nav nav-tabs' id='nav-tab' role='tablist'>
+									<a class='nav-item nav-link active' id='nav-current-tab' data-toggle='tab' href='#nav-current' role='tab' 
+											aria-controls='nav-current' aria-selected='true'>
+										Current
+									</a>
+									<a class='nav-item nav-link' id='nav-history-tab' data-toggle='tab' href='#nav-history' role='tab' 
+											aria-controls='nav-history' aria-selected='false'>
+										History
+									</a>
+									<a class='nav-item nav-link' id='nav-collab-tab' data-toggle='tab' href='#nav-collab' 
+											role='tab' aria-controls='nav-collab' aria-selected='false'>
+										Collab
+									</a>
+								</div>
+							</nav>
+
+							<div class='tab-content' id='nav-tabContent'>
+								<div class='tab-pane fade show active' id='nav-current' role='tabpanel' 
+										aria-labelledby='nav-current-tab'>
+									<div class='hide-div py-4'
+											style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+										{% for appointment in appointment_received  %}
+											{% if appointment.cancelled==False and appointment.consulted==False %}
+												{% include 'appointment/_list.html' %}
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
+								<div class='tab-pane fade' id='nav-history' role='tabpanel' aria-labelledby='nav-history-tab'>
+									<div class='hide-div py-4'
+											style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+										{% for appointment in appointment_received %}
+											{% if appointment.cancelled==True or appointment.consulted==True %}
+												{% include 'appointment/_history.html' %}
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
+
+								<div class='tab-pane fade' id='nav-collab' role='tabpanel' aria-labelledby='nav-collab-tab'>
+									<div class='hide-div py-4'
+											style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+										{% for consultation in user.clinics %}
+
+											{% include 'consultation/_collab.html' %}
+											
+										{% endfor %}
+									</div>
+								</div>
+
+
+							</div>
+						</div>
+					</div><!-- End CONTENT 1 -->
+
+				</div>
+			</div>
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

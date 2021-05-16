@@ -1,0 +1,30 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div class='container-fluid' style='min-height:100vh;'>
+	<div style='margin:20px;'>
+		{% include 'message/_message.html' %}
+	</div>
+
+	<div class='container py-4' style='min-height:80vh; display:flex; align-items:center; justify-content:center;'>
+		<div class='jumbotron-fluid' style='width:100%;'>
+			<a rel='noopener noreferrer' href='{{ url_for("user.dashboard", user_id=current_user.id, 
+					username=current_user.username) }}'>
+				<h5 class='text-right'>Dashboard</h5>
+			</a>
+			<h1 class='text-right'>{{ user.username }} Health Record</h1>
+				{% for consultation in consultations_provided %}
+					{% include 'consultation/_list.html' %}
+				{% endfor %}
+
+				{% for consultation in consultations_received %}
+					{% include 'consultation/_list.html' %}
+				{% endfor %}
+		</div>
+	</div>
+</div>	
+{% endblock %}

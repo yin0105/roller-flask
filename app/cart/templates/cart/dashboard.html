@@ -1,0 +1,238 @@
+{% extends 'base/layout.html' %}
+
+
+{% block content %}
+<div style='min-height:80vh; display:flex; align-items:center; justify-content:center;'>
+	<div class='container' style='min-height:80vh; padding:0;'>
+		
+			<div class='hide-div py-4'
+					style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+				<div class='container-fluid'>
+					<nav>
+						<div class='nav nav-tabs' id='nav-tab' role='tablist'>
+							<a class='nav-item nav-link active' id='nav-current-tab' data-toggle='tab' href='#nav-current' 
+									role='tab' aria-controls='nav-current' aria-selected='true'>
+								Cart
+							</a>
+							<a class='nav-item nav-link' id='nav-history-tab' data-toggle='tab' href='#nav-history' 
+									role='tab' aria-controls='nav-history' aria-selected='false'>
+								History
+							</a>
+						</div>
+					</nav>
+
+					<div class='tab-content' id='nav-tabContent'><!-- Tab Contents -->
+
+						<div class='tab-pane fade show active' id='nav-current' role='tabpanel' 
+								aria-labelledby='nav-current-tab'><!-- Current -->
+							<div class='hide-div pb-4'
+									style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+								{% if cart.cart_items | list |length ==0 %} <!-- Cart -->		
+									<div style='min-height:60vh; display:flex; align-items:center; justify-content:center;'>
+										<div class='jumbotron-fluid text-center'>
+											<h2 style='font-family:Georgia, serif; color:#4a4a4a; line-height:1.5;'><strong>
+												Did you forget to add an item or three?
+											</strong></h2>
+											<h3 style='font-family:Verdana, sans-serif; line-height:1.5; color:#7d7d7d; font-weight:300;'>
+												Empty Cart
+											</h3>
+										</div>
+									</div>
+								{% else %}
+									<div class='container' 
+											style='min-height:25vh; display:flex; align-items:center; justify-content:center;'>
+										<table class='table table-sm table-borderless table-hover' style='width:100%;'>
+											<tbody>
+											{% for cart_item in cart.cart_items %}
+												<tr style='text-align:left;'>
+													<td style='width:10%; vertical-align:middle;'>
+														<!-- src='{{ url_for("product.get_featured", filename=cart_item.feature_picture) }}' -->
+														<img src='{{ url_for("static", filename="uploads/product_img/" + cart_item.feature_picture) }}'
+															style='height:40px; width:40px; margin-left:-4px; object-fit:cover; object-position:center center; 
+																box-shadow:0 0 0 1px #FFF; border-radius:9999px'>
+													</td>
+													<td style='width:60%; vertical-align:middle;'>
+														<Small>ID:{{ cart_item.id }} {{ cart_item.model }}</Small>
+														<small class='hide-div'>{{ cart_item.brand }}</small>
+														<!-- format amount() defined in __init__.py file -->
+														<small class='hide-div'>{{ cart_item.currency }} {{ cart_item.amount | format_amount }}</small> 
+														<br>
+														<small class='hide-div'>
+															Supplier ID: {{ cart_item.product.supplier.id }} | Supplier: {{ cart_item.product.supplier.name }} 
+														</small>
+													</td>
+													<td class='hide-div' style='width:5%; vertical-align:middle;'>
+														<small>{{ cart_item.quantity }} unit</small>
+													</td>
+													<td class='hide-div' style='width:20%; vertical-align:middle;'>
+														<!-- format amount() defined in __init__.py file -->
+														<small>{{ cart_item.currency }}</small> {{ cart_item.ttl_amount | format_amount }}
+													</td>
+													<td style='width:5%; vertical-align:middle;'>
+														<a href='{{ url_for("cart.remove_item", cart_item_id=cart_item.id) }}' class=''>
+															<span class="fa-stack">
+																<i class="fa fa-trash-o fa-stack-1x"></i>
+															</span>
+														</a>
+													</td>
+												</tr>
+											{% endfor %}
+											</tbody>
+										</table>
+									</div>
+									<div class='py-4' 
+											style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+										<div class='container text-center hide-div' style='width:360px;'>	
+											<span style='font-family:Roboto, sans-serif; color:#555; font-size:30px;'>
+												{{ cart.cart_items | list | length }}
+											</span>
+											<p style='color:#555;'>Products</p>
+										</div>
+										<div class='container text-center hide-div' style='width:360px;'>	
+											<span style='font-family:Roboto, sans-serif; color:#555; font-size:30px;'> {{ total_items }}</span>
+											<p style='color:#555;'>Items</p>
+										</div>
+										<div class='container text-center pb-4' style='width:360px;'>	
+											<small style='font-family:Roboto, sans-serif; color:#555;'>{{ currency }}</small>
+											<span style='font-family:Roboto, sans-serif; color:#555; font-size:30px;'>
+											 {{ total_amount | format_amount }}
+											</span>
+										</div>
+										<div class='container text-center' style='width:260px;'>	
+											{% if user == current_user %}
+												<button id='checkout-button' class='btn btn-secondary btn-lg'>Checkout</button>
+											{% endif %}
+										</div>
+									</div>
+								{% endif %}
+								<div class='container text-center' style='margin-top:40px;'>
+									<small class='text-muted'>
+										Current User: {{ current_user.username }} | Cart Owner: {{ cart.owner.username }} | Cart ID:{{ cart.user_id }} | 
+										Cart: {{ user.cart }}
+									</small>
+								</div><!-- End Cart -->
+							</div>
+						</div><!-- End Current -->
+
+						<div class='tab-pane fade' id='nav-history' role='tabpanel' aria-labelledby='nav-history-tab'><!-- History -->
+							<div class='hide-div py-4 appointment-items'
+									style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+								<div class='container' 
+										style='min-height:25vh; display:flex; align-items:flex-start; justify-content:center;'><!-- Incoming Orders -->
+									<table class='table table-sm table-borderless table-hover'>
+										<tbody>
+										{% for order in orders %}
+											<tr style='text-align:left;'>
+												<td style='width:20%; vertical-align:middle;'>
+													<Small>Order ID:{{ order.id }}</Small>
+													<br>
+													<span style='color:grey; font-size:0.5em;'>
+														<span class='hide-div'>
+															created on: {{ order.created_on.strftime('%a, %d-%b-%Y, %H:%M') }}
+														</span>
+														({{ order.created_on | datetimeformat }})
+													</span>
+												</td>
+
+												<td style='width:40%; vertical-align:middle;'>
+													{% for cart_item in order.cart_items %}
+														{{ cart_item.brand }} <span style='color:grey; font-size:0.5em;'>
+														from {{ cart_item.supplier.name }}</span><br>
+													{% endfor %}
+												</td>
+
+												<td style='width:20%; vertical-align:middle;'>
+													{% for cart_item in order.cart_items %}
+														<small style='font-family:Roboto, sans-serif; color:#555;'>{{ cart_item.currency }}</small>
+														{{ cart_item.ttl_amount | format_amount }}
+													{% endfor %}
+												</td>
+
+												<td class='hide-div' style='width:20%; vertical-align:middle;'>
+													<small>Purchased By: {{ order.buyer.username }}</small>
+												</td>
+											</tr>
+										{% endfor %}
+
+										<!-- customer receipt generated from booking.create route  -->
+										{% for receipt in current_user.customer_receipts %} <!-- Customer Receipt -->
+											<tr style='text-align:left;'>
+												<td style='vertical-align:middle;'>
+													<Small>Receipt ID:{{ receipt.id }}</Small>
+													<br>
+													<span style='color:grey; font-size:0.5em;'>
+														<span class='hide-div'>
+															created on: {{ receipt.created_on.strftime('%a, %d-%b-%Y, %H:%M') }}
+														</span>
+														({{ receipt.created_on | datetimeformat }})
+													</span>
+												</td>
+												<td style='vertical-align:middle;'>
+													{{ receipt.description }}
+												</td>
+												<td style='vertical-align:middle;'>
+													Paid: S$ {{ receipt.customer_paid_amount | format_amount }}
+												</td>
+												<td class='hide-div' style='vertical-align:middle;'>
+													<a rel='noopener noreferrer' 
+															href='{{ url_for("receipt.delete", receipt_id=receipt.id) }}' style='color:#000000;'>
+														<span class="fa-stack">
+															<i class="fa fa-trash-o fa-stack-1x"></i>
+														</span>
+													</a>
+												</td>
+											</tr>
+										{% endfor %}<!-- End Customer Receipt -->
+
+										<!-- provider receipt generated from precription.create route  -->
+										{% if current_user.profession == 'Physician' %}<!-- Provider Receipt -->
+											{% for receipt in current_user.provider_receipts %} 
+												<tr style='text-align:left;'>
+													<td style='vertical-align:middle;'>
+														<Small>Receipt ID:{{ receipt.id }}</Small>
+														<br>
+														<span style='color:grey; font-size:0.5em;'>
+															<span class='hide-div'>
+																created on: {{ receipt.created_on.strftime('%a, %d-%b-%Y, %H:%M') }}
+															</span>
+															({{ receipt.created_on | datetimeformat }})
+														</span>
+													</td>
+													<td style='vertical-align:middle;'>
+														{{ receipt.description }}
+													</td>
+													<td style='vertical-align:middle;'>
+														Receiving: S$ {{ receipt.provider_received_amount | format_amount }}
+													</td>
+													<td class='hide-div' style='vertical-align:middle;'>
+														<a rel='noopener noreferrer' 
+																href='{{ url_for("receipt.delete", receipt_id=receipt.id) }}' style='color:#000000;'>
+															<span class="fa-stack">
+																<i class="fa fa-trash-o fa-stack-1x"></i>
+															</span>
+														</a>
+													</td>
+												</tr>
+											{% endfor %}
+										{% endif %}<!-- End Provider Receipt -->
+										</tbody>
+									</table>
+								</div><!-- End Incoming Orders -->
+							</div>
+						</div><!-- End History -->
+
+					</div><!-- End Tab Contents -->
+
+				</div>
+			</div><!-- End CONTENT 1 -->
+
+	</div>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script src='https://js.stripe.com/v3/'></script>
+	<script src='{{ url_for("static", filename="javascripts/stripe-ajax.js") }}'></script>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='d-flex align-items-center position-relative vh-45 cover intro' 
+		style='background-image:url("/static/uploads/app_img/bg001.jpeg"); 
+						display:flex; align-items:center; justify-content:center;
+						background-size: cover; 
+						background-repeat: no-repeat; 
+						background-position: center center; 
+						background-attachment: fixed;'>
+	<div class='container-fluid' style='min-height:45vh; 
+			display:flex; align-items:center; justify-content:center;'>
+		<div class='row text-center'>
+			<div class='col-12'>
+				<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+					whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+				</h2>
+			</div>
+			<div class='col-12'>
+				<h1 class='jumbotron-fluid' style='color:#4a4a4a'>
+					<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+						Refund Policy
+					</h1>
+				</h1>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section class='py-4' style='background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='min-height:45vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+		<div class='col-12 col-sm-12 col-lg-6 pt-2'>
+			<h6 class='pt-2' style='font-family:Montserrat,sans-serif; font-weight:900; color:#000000;'>
+				Refund Policy
+			</h6>
+			<ul>
+				<li style='color:grey;'>
+					Payment is non-refundable. 
+				</li>
+			</ul>
+		</div>
+	</div>
+</section>
+{% endblock %}

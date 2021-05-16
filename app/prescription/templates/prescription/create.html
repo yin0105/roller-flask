@@ -1,0 +1,13 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/teleconsult_layout.html' %}
+
+
+{% block content %}
+<div class='container-fluid'>
+		<h1>{{ booking.booking_type }}</h1>
+		<h4 class='py-4'>{{ title }} {{ customer.username }}</h4>
+		{{ wtf.quick_form(form) }}
+</div>
+{% endblock %}

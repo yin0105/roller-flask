@@ -1,0 +1,126 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid hide-div' 
+				style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+			{% include 'sidebar/_shop_sidebar.html' %}
+		</div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_company_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<section id='' class='py-5' style='background:#FFFFFF;'><!-- SHOP CONTENT -->
+				<div id='card-shadow' style='min-height:30vh; 
+						display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+					{% for product in company.products %}
+						<a rel='noopener noreferrer' 
+								href='{{ url_for("product.profile", product_id=product.id) }}'>
+							<div class='card text-center' 
+									style='width:200px; height:205px; margin:20px; background:transparent; border:0;'><!-- card -->
+								<div class='' style='width:200px; height:180px;'>
+									<img src='{{ url_for("static", filename="uploads/product_img/" + product.feature_picture) }}'
+										style='width:200px; height:180px; overflow:hidden; object-fit:fill; object-position:center center;'>
+								</div>
+								<div class='card-body' style='width:200px; height:15px; overflow:hidden; 
+										display:flex; flex-direction:column; align-items:center; justify-content:center;'>
+									<small style='color:#000000; line-height:15px;'>
+										{{ product.model }}
+									</small>
+									<small>{{ product.currency }} {{ product.amount | format_amount }}</small>
+								</div>
+							</div><!-- End Card -->
+						</a>
+					{% endfor %}
+				</div>
+			</section><!-- End SHOP CONTENT -->
+
+			{% if current_user in company.administrators or current_user in company.employees %}
+				<section id='' class='py-5' style='background:#FFFFFF;'><!-- INCOMING ORDER CONTENT -->
+					<div class='container' style='width:90%;'>
+						<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>Incoming Orders</h2>
+					</div>
+
+					<div style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+
+						<table class='table table-sm table-borderless table-hover' style='width:90%;'>
+							<thead style='margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,.1)'>
+								<tr style='text-align:left;'>
+									<th scope='col'>Incoming Orders</th>
+									<th scope='col'>Items</th>
+									<th class='hide-div' scope='col'>Purchaser</th>
+									{% if current_user in company.administrators %}
+										<th class='hide-div' scope='col'>Delete</th>
+									{% endif %}
+								</tr>
+							</thead>
+							<tbody>
+							{% for incoming_order in company.incoming_orders %}
+								<tr style='text-align:left;' class='clickable-row' rel='noopener noreferrer'
+										data-href='{{ url_for("order.incoming", incoming_order_id=incoming_order.id, company_id=company.id) }}'>
+									<td style='vertical-align:middle;'>
+										<Small>Order ID: {{ incoming_order.id }}</Small><br>
+										<span style='color:grey; font-size:0.5em;'>
+											Created On: {{ incoming_order.created_on | datetimeformat }}
+										</span>
+									</td>
+
+									<td style='vertical-align:middle;'>
+										{% for cart_item in incoming_order.cart_items %}
+											{% if cart_item.supplier.name==company.name %}
+												{{ cart_item.brand }} {{ cart_item.model }} 
+												<span style='color:grey; font-size:0.5em;'>from {{ cart_item.supplier.name }}</span><br>
+											{% endif %}
+										{% endfor %}
+									</td>
+
+									<td class='hide-div' style='vertical-align:middle;'>
+										<small> Purchaser ID: {{ incoming_order.order.buyer.id }} {{ incoming_order.order.buyer.username }}</small>
+									</td>
+
+									<td class='hide-div' style='vertical-align:middle;'>
+										{% if current_user in company.administrators %}
+											<a rel='noopener noreferrer' 
+													href='{{ url_for("order.remove_incoming_item", incoming_order_id=incoming_order.id, company_id=company.id) }}' 
+													style='color:#000000;'>
+												<span class='fa-stack'>
+													<i class='fa fa-trash-o fa-stack-1x'></i>
+												</span>
+											</a>
+										{% endif %}
+									</td>
+								</tr>
+							{% endfor %}
+							</tbody>
+						</table>
+
+					</div>
+				</section><!-- End INCOMING ORDER CONTENT -->
+			{% endif %}
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+	{{ super() }}
+	<script>
+	jQuery(document).ready(function($) {
+		$(".clickable-row").click(function() {
+			window.location = $(this).data("href");
+		});
+	});
+	</script>
+{% endblock %}
+

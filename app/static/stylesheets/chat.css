@@ -1,0 +1,237 @@
+/* Chat */
+@import url(https://fonts.googleapis.com/css?family=Lato:400,700);
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+ul#messages{
+  padding:30px 30px 20px;
+  position: absolute;
+  bottom: 0;
+  height: 100%;
+  max-width: 490px;
+  width: 100%;
+}
+.chat-container {
+  margin: 0 auto;
+  max-width: 490px;
+  background: #444753;
+  border-radius: 22px;
+  font: 14px/20px "Lato", Arial, sans-serif;
+}
+.chat {
+  background: #F2F5F8;
+  border-radius: 20px;
+  color: #434651;
+  display:flex;
+  flex-direction: column;
+  height: calc(100vh - 80px);
+  position: relative;
+}
+.chat .chat-header {
+  padding: 15px;
+  /* border-bottom: 2px solid white; */
+}
+.chat .chat-header img {
+  width:16vw; 
+  height:16vw;
+  float: left;
+  border: 3px transparent solid;
+  border-radius: 6px;
+  overflow:hidden; 
+  object-fit:cover; 
+  object-position:center center;
+}
+.chat .chat-header .chat-about {
+  float: left;
+  padding-left: 10px;
+  margin-top: 6px;
+}
+.chat .chat-header .chat-with {
+  font-weight: bold;
+  font-size: 16px;
+}
+.chat .chat-header .chat-with.online {
+  border-bottom:2px #86BB71 solid;
+}
+
+.chat .chat-header .chat-num-messages {
+  color: #92959E;
+}
+.chat .chat-history {
+  border-bottom: 2px solid white;
+  overflow-y: scroll;
+  flex-grow: 1;
+  position: relative;
+}
+@media only screen and (max-width: 768px) {
+  .chat .chat-header{
+    padding: 8px;
+  }
+  ul#messages {
+    padding:20px 20px 10px !important;
+  }
+  .chat .chat-history .message-data{
+    margin-bottom: 5px !important;
+  }
+  .chat .chat-history .message{
+    min-width: 70% !important;
+    width: 70%;
+    font-size: 13px;
+    padding: 9px 10px !important;
+  }
+  .chat .chat-history .other-message:after, .chat .chat-history .message:after{
+    display: none !important;
+  }
+  .dot{
+    width:8px !important;
+    height: 8px !important;
+  }
+  
+}
+.chat .chat-history .message-data {
+  margin-bottom: 15px;
+}
+.chat .chat-history .message-data-time {
+  color: #a8aab1;
+  padding-left: 6px;
+  font-size: 13px;
+}
+.chat .chat-history .message {
+  color: white;
+  padding: 12px 13px;
+  line-height: 26px;
+  font-size: 15px;
+  border-radius: 7px;
+  margin-bottom: 10px;
+  min-width: 90%;
+  width: 90%;
+  position: relative;
+}
+.chat .chat-history .message:after {
+  bottom: 100%;
+  left: 7%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-bottom-color: #86BB71;
+  border-width: 10px;
+  margin-left: -10px;
+}
+.chat .chat-history .my-message {
+  background: #86BB71;
+}
+.chat .chat-history .other-message {
+  background: #94C2ED;
+}
+.chat .chat-history .other-message:after {
+  border-bottom-color: #94C2ED;
+  left: 93%;
+}
+.chat .chat-message {
+  padding: 10px 0 10px 10px;
+  display: flex;
+  height: 70px;
+}
+.chat .chat-message textarea {
+  width: 80%;
+  margin-left: 8px;
+  border: none;
+  padding: 10px 20px;
+  font: 14px/22px "Lato", Arial, sans-serif;
+  border-radius: 5px;
+  resize: none;
+}
+.chat .chat-message button {
+  position: relative;
+  color: #94C2ED;
+  width: 80px;
+  flex-shrink: 0.7;
+  font-size: 16px;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  background: #F2F5F8;
+}
+.chat .chat-message button:hover {
+  color: #75b1e8;
+}
+.online, .offline, .me {
+  margin-right: 3px;
+  font-size: 10px;
+}
+.online {
+  color: #86BB71;
+  background: #86BB71;
+}
+.me {
+  color: #94C2ED;
+  background: #94C2ED;
+}
+.align-left {
+  text-align: left;
+}
+.align-right {
+  text-align: right;
+}
+.float-right {
+  float: right;
+}
+.chat-clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+.chat li{
+  list-style: none;
+}
+.mydot{
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 3px;
+  background: #86BB71;
+  animation: wave 1.3s linear infinite;
+}
+.dot:nth-child(2) {
+  animation-delay: -1.1s;
+  background: #AED2A6;
+}
+.dot:nth-child(3) {
+  animation-delay: -0.9s;
+  background:#DAE9DA;
+}
+
+@keyframes wave {
+  0%, 60%, 100% {
+    transform: initial;
+  }
+  30% {
+    transform: translateY(-10px);
+  }
+}
+#typing{
+  display: none;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+#fader{
+
+}
+
+.chat-btn{
+  margin-top:7px;
+}

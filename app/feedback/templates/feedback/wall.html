@@ -1,0 +1,39 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<section class='d-flex align-items-center position-relative vh-100 cover intro' 
+		style='background-color:#FFFFFF;'>
+	<div class='container-fluid' 
+			style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center; margin-bottom:40px;'>
+
+		<div class='col-12 col-sm-12 col-lg-4 py-4'>
+			<div class='container' style='width:100%;'>
+				<h1>Contact Us</h1>
+				<h6>Email: info@whosedoctor.com</h6>
+				<h6>Mobile: 98632844</h6>
+			</div>
+		</div>
+
+		<div class='col-12 col-sm-12 col-lg-6'>
+			<div class='container' style='width:100%;'>
+				<form action='' method='POST' novalidate>
+					{{ form.hidden_tag() }}
+					{{ wtf.form_field(form.username, class='form-control', placeholder='e.g John Doe') }}
+					{{ wtf.form_field(form.email, class='form-control', placeholder='e.g john@example.com') }}
+					{{ wtf.form_field(form.body, class='form-control', placeholder='Talk to us...') }}
+					<input type=submit class='btn-mod'>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div id='sgskyline' class='container-fluid' style='height:14%; 
+		bottom:0em; position:absolute;
+		background:url("/static/uploads/app_img/sgsky.png") repeat-x; 
+		background-position: center bottom; 
+		background-size:50%;'>
+	</div>
+</section>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base/layout.html' %}
+
+
+{% block content %}
+<section class='py-4' style=''>
+	<div id='card-shadow' class='container-fluid' style='min-height:80vh; 
+			display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+		
+			{% for clinic in companies %}
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("booking.create", company_id=clinic.id) }}'>
+					<div class='card text-center' 
+							style='width:180px; height:230px; margin:20px; background:transparent; border:0;'><!-- card -->
+						<div class='' style='width:180px; height:200px;'>
+							<img src='{{ url_for("static", filename="uploads/logo_img/" + clinic.logo_file) }}' loading='lazy'
+								style='width:180px; height:200px; overflow:hidden; object-fit:fill; object-position:center center;'>
+						</div>
+						<div class='card-body' style='width:180px; height:30px; overflow:hidden; 
+								display:flex; flex-direction:column; align-items:center; justify-content:center;'>
+							<small style='color:#000000; line-height:15px;'>{{ clinic.name }}</small>
+							<small>{{ clinic.address }} {{ clinic.unit_num }} {{ clinic.country }}</small>
+						</div>
+					</div><!-- End Card -->
+				</a>
+			{% endfor %}
+		
+	</div>
+</section>
+{% endblock %}

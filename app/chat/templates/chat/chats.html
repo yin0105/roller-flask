@@ -1,0 +1,32 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<div style='min-height:80vh; display:flex; align-items:center; justify-content:center;'>
+  <div class='container' style='width:70%; min-height:80vh;'>
+
+    <div style='min-height:60vh; display:flex; align-items:center; justify-content:center;'>
+      <div class='container'>
+        <div class='jumbotron-fluid'>
+          <h1>ChatterBox</h1>
+            {% if chats %}
+              {% for chat in chats %}
+                {% include 'chat/_chat.html' %}
+              {% endfor %}
+            {% else %}
+            <br>
+            <h3>
+              Get someone to chat with? Find users in
+              <a href='{{ url_for("company.workplace", user_id=current_user.id, username=current_user.username) }}'>
+              Explore
+              </a>
+            </h3>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}
+

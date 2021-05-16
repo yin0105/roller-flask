@@ -1,0 +1,59 @@
+<table class='table table-sm table-borderless table-hover' style='width:90%;'>
+  <tbody>
+    {% for delivery in deliveries %}
+      {% if delivery.completed==True or delivery.cancelled==True %}
+        <tr style='text-align:left;' class='clickable-row' rel='noopener noreferrer'
+            data-href='{{ url_for("delivery.show_delivery", delivery_id=delivery.id) }}'>
+          <td class='hide-div' style='vertical-align:middle;'>
+            Job ID: {{ delivery.id }}<br>
+            <span class='hide-div' style='color:grey; font-size:0.5em;'>
+              created on: {{ delivery.created_on.strftime('%d %b %Y %H:%M') }}
+            </span>
+          </td>
+          <td class='hide-div' style='vertical-align:middle;'>
+            Incoming Order ID: {{ delivery.incoming_order_id }}<br>
+            <span class='hide-div' style='color:grey; font-size:0.5em;'>
+              created on: {{ delivery.incoming_order.created_on.strftime('%d %b %Y %H:%M') }}
+            </span>
+          </td>
+          <td style='vertical-align:middle;'>
+            {{ delivery.incoming_order.supplier.name }}<br>
+            <span class='hide-div' style='color:grey; font-size:0.5em;'>
+              {{ delivery.incoming_order.supplier.address }} 
+              {{ delivery.incoming_order.supplier.country }}
+              {{ delivery.incoming_order.supplier.zip_code }}
+            </span>
+          </td>
+          <td style='vertical-align:middle;'>
+            {{ delivery.incoming_order.order.buyer.username }}<br>
+            <span class='hide-div' style='color:grey; font-size:0.5em;'>
+              {{ delivery.incoming_order.order.buyer.address }} 
+              {{ delivery.incoming_order.order.buyer.country }}
+              {{ delivery.incoming_order.order.buyer.zip_code }}
+            </span>
+          </td>
+          <td style='vertical-align:middle;'>
+            {{ delivery.dist }} {{ delivery.unit }}
+          </td>
+          <td style='vertical-align:middle;'>
+            {% if delivery.cancelled == True %}
+              Cancelled
+            {% else %}
+              Completed
+            {% endif %}
+          </td>
+          <td class='hide-div' style='width:10%; vertical-align:middle;'>
+            {% if current_user.is_superadmin %}
+              <a rel='noopener noreferrer' 
+                  href='{{ url_for("admin.delete_delivery", delivery_id=delivery.id) }}' style='color:#000000;'>
+                <span class='fa-stack'>
+                  <i class='fa fa-trash-o fa-stack-1x'></i>
+                </span>
+              </a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>

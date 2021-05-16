@@ -1,0 +1,74 @@
+{% extends 'base/layout.html' %}
+
+
+{% block content %}
+<div style='min-height:90vh;  display:flex; align-items:center; justify-content:center;'>
+  <div class='container' style='min-height:60vh;'>
+   
+    <div class='product-container' style='margin-bottom:60px'> <!-- Left & Right Columns Wrapper -->
+
+      <div class='left-column'><!-- Left Column -->
+        <img src='{{ url_for("static", filename="uploads/selfie_img/" + user.selfie_file) }}' 
+          alt='' class='' 
+          style='min-height:40vh; border:0 transparent; object-fit:contain; object-position:center center; 
+          border-color:{% if user.online %} #86BB71 {% endif %}'/>
+      </div>
+
+      <div class='right-column'><!-- Right Column -->
+        
+        <div class='product-description'><!-- Product Description -->
+          <span style='font-size:12px; color:#358ED7; letter-spacing:1px; text-transform:uppercase; text-decoration:none;'>
+          {{ user.email }}
+          </span>
+          <h1 style='font-weight:300; font-size: 52px; color:#43484D; letter-spacing:-2px;'>
+          {{ user.username }}
+        </h1>
+          <p style='font-size:16px; font-weight:300; color:#86939E; line-height: 24px;'>
+            {% if user.about_me %}
+              {{ user.about_me }}
+            {% else %}
+              The preferred choice of a vast range of acclaimed DJs. Punchy, bass-focused sound and high isolation. Sturdy headband and on-ear cushions suitable for live performance
+            {% endif %}
+
+            {% if user.last_seen %}
+              <small class='text-muted'>{{ 'Last seen on' }}: {{ user.last_seen | datetimeformat }}</small>
+            {% endif %}
+          </p>
+        </div>
+        <!-- Configuration -->
+        <div class="product-configuration">
+          <!-- Selection -->
+          <div class="product-color">
+            <span>Color</span>
+            <div class="color-choose">
+              <div>
+                <input data-image="red" type="radio" id="red" name="color" value="red" checked>
+                <label for="red"><span></span></label>
+              </div>
+              <div>
+                <input data-image="blue" type="radio" id="blue" name="color" value="blue">
+                <label for="blue"><span></span></label>
+              </div>
+              <div>
+                <input data-image="black" type="radio" id="black" name="color" value="black">
+                <label for="black"><span></span></label>
+              </div>
+              {% if user != current_user %}
+                <button class='btn' style='margin:0;'>
+                  <a rel='noopener noreferrer' 
+                  href='{{ url_for("chat.chat", recipient=user.username) }}' class='btn btn-default' 
+                      style='text-decoration:none;'>
+                    Private Message
+                  </a>
+                </button>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- End of Left & Right Columns Wrapper -->
+
+  </div>
+</div>
+{% endblock %}

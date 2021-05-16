@@ -1,0 +1,102 @@
+{% if current_user in consultation.providers or current_user == user %}
+<table class='table table-hover'>
+  <tr>
+    <td style='width:60%; vertical-align:middle;'>
+      <div class='container-fluid'>
+
+        <a href='{{ url_for("user.profile", user_id=consultation.customer.id, username=consultation.customer.username) }}'>
+          <img src='{{ url_for("static", filename="uploads/selfie_img/" + consultation.customer.selfie_file) }}'
+            style='height:30px; width:30px; margin-left:-4px; object-fit:cover; object-position:center center;
+              border-radius:9999px'>
+        </a>
+
+        <small class='text-muted'>
+          Consultation ID: {{ consultation.id }}
+        </small>
+      </div>
+
+      <!-- CLINICAL NOTES -->
+      <div class='container-fluid py-2'>
+        {% if current_user.id == consultation.clinical_note.provider_id %}
+          <h5>
+            {{ consultation.clinical_note.body }}
+          </h5>
+        {% endif %}
+
+        <div style='display:flex; align-items:center; justify-content:flex-start;'>
+          <a href='{{ url_for("user.profile", user_id=consultation.primary_provider_id) }}'>
+            <img src='{{ url_for("static", filename="uploads/selfie_img/" + consultation.primary_provider.selfie_file) }}'
+              style='height:30px; width:30px; margin-left:-4px; object-fit:cover; object-position:center center;
+                border-radius:9999px'>
+          </a>
+          <small class='text-muted px-2'>
+            attended by
+            <a href='{{ url_for("user.profile", user_id=consultation.primary_provider_id) }}'>
+              {{ consultation.primary_provider.username }}
+            </a>
+            {{ consultation.clinical_note.created_on }}
+          </small>
+        </div>
+      </div>
+
+
+
+
+
+      <div class='container-fluid pt-4'>
+        <div style='display:flex; align-items:center; justify-content:flex-start;'>
+          <a href='{{ url_for("user.profile",
+              user_id=consultation.primary_provider.id, username=consultation.primary_provider.username) }}'>
+            <img src='{{ url_for("static", filename="uploads/selfie_img/" + consultation.primary_provider.selfie_file) }}'
+              style='height:30px; width:30px; margin-left:-4px; object-fit:cover; object-position:center center;
+                border-radius:9999px'><br>
+          </a>
+          <small class='text-muted px-2'>
+            Primary Caregiver:
+            <a href='{{ url_for("user.profile",
+                user_id=consultation.primary_provider.id, username=consultation.primary_provider.username) }}'>
+              {{ consultation.primary_provider.username }}
+            </a>
+          </small>
+        </div>
+      </div>
+
+      <div class='container-fluid py-2'>
+        {% if current_user.id == consultation.primary_provider.id %}
+          <a rel='noopener noreferrer' href='{{ url_for("consultation.add_provider", consultation_id=consultation.id,
+              customer=consultation.customer.username) }}'>
+            Add Provider <br>
+          </a>
+        {% endif %}
+        <div class='py-2' style='display:flex; align-items:center; justify-content:flex-start;'>
+          {% for provider in consultation.providers %}
+            {% if provider.id != consultation.primary_provider.id %}
+              <a href='{{ url_for("user.profile",
+                  user_id=provider.id, username=provider.username) }}'>
+                <img src='{{ url_for("static", filename="uploads/selfie_img/" + provider.selfie_file) }}'
+                  style='height:30px; width:30px; margin-left:-4px; object-fit:cover; object-position:center center;
+                    border-radius:9999px'><br>
+              </a>
+              <small class='text-muted px-2'>
+                {{ provider.username }}
+              </small>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+    </td>
+
+    <td class='hide-div' style='vertical-align:middle; width:5%;'>
+      {% if user == current_user or current_user.is_superadmin %}
+      <a rel='noopener noreferrer'
+          href='{{ url_for("consultation.delete", consultation_id=consultation.id, user_id=user.id) }}'
+          style='color:#000000;'>
+        <span class="fa-stack">
+          <i class="fa fa-trash-o fa-stack-1x"></i>
+        </span>
+      </a>
+      {% endif %}
+    </td>
+  </tr>
+</table>
+{% endif %}

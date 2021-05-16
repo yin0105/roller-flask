@@ -1,0 +1,41 @@
+{% extends 'base/layout.html' %}
+
+
+{% block content %}
+<div class='container' 
+		style='min-height:40vh; display:flex; align-items:center; justify-content:center;'>
+	<table class='table table-sm table-borderless table-hover' style='width:100%;'>
+		<thead style='margin-bottom:10px; border-bottom:1px solid rgba(0,0,0,.1)'>
+			<tr style='text-align:left;'>
+				<th scope='col'>Outgoing Orders</th>
+				<th scope='col'>Items</th>
+				<th class='hide-div' scope='col'>Purchaser</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for order in orders %}
+			<tr style='text-align:left;'>
+				<td style='vertical-align:middle;'>
+					<Small>Order ID:{{ order.id }}</Small>
+					<br>
+					<span style='color:grey; font-size:0.5em;'>
+						created: {{ order.created_on | datetimeformat }}
+					</span>
+				</td>
+
+				<td style='vertical-align:middle;'>
+					{% for cart_item in order.cart_items %}
+						{{ cart_item.brand }} <span style='color:grey; font-size:0.5em;'>
+						from {{ cart_item.supplier.name }}</span><br>
+					{% endfor %}
+				</td>
+
+				<td class='hide-div' style='vertical-align:middle;'>
+					<small>{{ order.buyer.username }}</small>
+				</td>
+			</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

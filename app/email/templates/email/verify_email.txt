@@ -1,0 +1,9 @@
+Dear {{ user.username }},
+
+Thanks for signing up with WhoseDoctor. Please verify your email by clicking on the link below.
+
+{{ url_for("auth.verify_email", token=token, _external=True) }}
+
+
+Sincerely,
+The WhoseDoctor Team

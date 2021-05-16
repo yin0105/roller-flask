@@ -1,0 +1,389 @@
+{% extends 'base/dash_layout.html' %}
+
+
+{% block content %}
+<section id='' class='' style='min-height:100vh; background:rgb(225,225,225);'>
+	<div class='container-fluid' 
+			style='padding:0; display:flex; align-items:center; justify-content:center;'>
+
+		<div class='container-fluid hide-div' 
+				style='width:16vw; min-height:100vh;'><!-- LEFT COLUMN -->
+			{% include 'sidebar/_admin_sidebar.html' %}
+		</div><!-- End LEFT COLUMN -->
+
+		<div class='container-fluid' style='margin:0; padding:0; min-height:100vh;'><!-- RIGHT COLUMN -->
+
+			{% include 'navbar/_navbar.html' %}
+			<div style='margin:20px;'>
+				{% include 'message/_message.html' %}
+			</div>
+
+			<div class='container hide-div'>
+				<h2 class='text-right' style='color:rgba(0, 0, 0, 0.7)'>{{ title }}</h2>
+			</div>
+
+			<iframe src='{{ url_for("geomap.show") }}' style='width:100%; height:30vh; border:transparent;'></iframe>
+
+			<div class='hide-div py-4' 
+					style='display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'><!-- CONTENT 1 -->
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.booking") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- bookings defined in admin.booking -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>
+									{{ bookings_sent_all | list | length }}
+								</h3>
+								<p style='color:#F0FFFF;'>Bookings</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-clock-o fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.cart") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- carts defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ carts | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Carts</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-shopping-cart fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.company") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- companies defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ companies | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Companies</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-building fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.consultation") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- consultations defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>
+									{{ consultations | list | length }}
+								</h3>
+								<p style='color:#F0FFFF;'>Consultations</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-universal-access fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.currency") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- currencies defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ currencies | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Currencies</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-money fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.delivery") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- new_deliveries defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ new_deliveries | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Delivery Jobs</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-truck fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.doctor") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- doctors defined in user.dashboard to populate number and url is defined above -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ doctors | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Doctors</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-user-md fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.feedback") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- feedbacks defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ feedbacks | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Feedbacks</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-comments-o fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.health_record") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- health_records defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ health_records | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Health Records</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-comments-o fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.medical_cert") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- medical_certs defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>
+									{{ medical_certs | list | length }}
+								</h3>
+								<p style='color:#F0FFFF;'>Medical Certificates</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa fa-certificate fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.order") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- total_orders defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ total_orders | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Orders</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-first-order fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.people") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- users defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ users | list | length }}</h3>
+								<p style='color:#F0FFFF;'>People</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-user fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.product") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card --> 
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- products defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ products | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Products</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-shopping-bag fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+				
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("admin.receipt") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- receipts defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>{{ receipts | list | length }}</h3>
+								<p style='color:#F0FFFF;'>Receipts</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-money fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+				<!-- Values are coming from user.dashboard route -->
+				<a rel='noopener noreferrer' 
+						href='{{ url_for("geomap.show") }}'>
+					<div class='card' 
+							style='width:300px; height:140px; margin:10px; border:0 transparent; border-radius:20px;'><!-- card -->
+						<div class='card-body' 
+								style='width:300px; height:140px; background:rgb(21, 31, 42, 0.9); border-radius:20px; overflow:hidden;
+											display:flex; align-items:center; justify-content:center;'>
+							<div class='container'>	
+								<!-- companies defined in user.dashboard to populate number -->
+								<h3 style='font-family:Roboto, sans-serif; color:#F0FFFF;'>
+									{{ companies | list | length }}
+								</h3>
+								<p style='color:#F0FFFF;'>Geo Map</p>
+							</div>
+							<div class='container'>	
+								<span class='fa-stack fa-2x'>
+									<i class='fa fa-circle fa-stack-2x text-grey'></i>
+									<i class='fa fa-map fa-stack-1x text-white'></i>
+								</span>
+							</div>
+						</div>
+					</div><!-- End Card -->
+				</a>
+
+			</div><!-- End CONTENT 1 -->
+
+		</div><!-- End RIGHT COLUMN -->
+
+	</div>
+</section>
+{% endblock %}

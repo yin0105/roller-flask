@@ -1,0 +1,38 @@
+{% import "bootstrap/utils.html" as utils %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% extends 'base/auth_layout.html' %}
+
+
+{% block content %}
+<div class='py-4 my-2' style='min-height:100vh; display:flex; flex-wrap:wrap; align-items:center; justify-content:center;'>
+	<div class='col-12 col-sm-12 col-lg-6 px-4 my-2'>
+		<!-- Whatsapp Floating Button -->
+		<a href='https://api.whatsapp.com/
+				send?phone=+6598632844&text='
+				target='_blank'style='position:fixed; width:60px; height:60px; bottom:40px; right:40px; 
+				background-color:#25d366; color:#FFF; border-radius:50px; text-align:center; 
+				font-size:30px; box-shadow:2px 2px 3px #999; z-index:100;'>
+			<i class='fa fa-whatsapp' style='margin-top:16px;'></i>
+		</a>
+		<h2 style='font-family:Montserrat,sans-serif; font-weight:900; color:rgb(21, 31, 42);'>
+			whose<span style='font-weight:300; color:rgb(254, 125, 1);'>doctor</span>
+		</h2>
+		<h1 style='font-family:Roboto; font-weight:900; color:rgb(21, 31, 42);'>
+			Teleconsult with a
+			<span style='font-family:Montserrat,sans-serif; font-weight:900; color:#6FB2FF;'>
+				Trusted
+			</span>
+			Doctor anytime anywhere
+		</h1>
+	</div>
+	<div class='col-12 col-sm-12 col-lg-4 my-2'>
+		{{ wtf.quick_form(form) }}
+		<br>
+		<a  rel='noopener noreferrer' 
+			href='{{ url_for("auth.login") }}' style='text-decoration:none; color:#000000;'>
+			Login
+		</a>
+	</div>
+</div>
+{% endblock %}
